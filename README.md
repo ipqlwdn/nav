@@ -12,7 +12,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://hub.docker.com/)
 [![GitHub stars](https://img.shields.io/github/stars/tony-wang1990/laowang-nav)](https://github.com/tony-wang1990/laowang-nav/stargazers)
 
-[**在线演示**](http://161.33.189.34:3000) | [**快速开始**](#-快速开始) | [**功能特性**](#-功能特性) | [**部署指南**](#-部署方式) | [**配置说明**](#️-配置说明)
+[**在线演示**](https://demo-nav.zeabur.app/) | [**快速开始**](#-快速开始) | [**功能特性**](#-功能特性) | [**部署指南**](#-部署方式) | [**配置说明**](#️-配置说明)
 
 ---
 
