@@ -155,9 +155,10 @@ export default {
     align-items: flex-end;
     justify-content: flex-end;
     flex: 1;
-    padding: 0.5rem 1.5rem 0.5rem 1rem;
+    padding: 1rem 1.5rem 1rem 1rem;
     border-radius: var(--curve-factor-navbar) 0 0;
     background: var(--settings-background);
+    min-height: 60px;
     div {
       margin-left: 0.5rem;
       opacity: var(--dimming-factor);

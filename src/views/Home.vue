@@ -18,6 +18,10 @@
         <span>Back to All</span>
       </router-link>
     </div>
+    <!-- Web Search Engine Selector -->
+    <div class="web-search-container">
+      <SearchEngineSelector />
+    </div>
     <!-- Main content, section for each group of items -->
     <div v-if="checkTheresData(sections) || isEditMode" :class="computedClass">
       <template v-for="(section, index) in filteredSections">
@@ -57,6 +61,8 @@
 <script>
 import HomeMixin from '@/mixins/HomeMixin';
 import SettingsContainer from '@/components/Settings/SettingsContainer.vue';
+import HeaderInfo from '@/components/PageStrcture/HeaderInfo.vue';
+import SearchEngineSelector from '@/components/Settings/SearchEngineSelector.vue';
 import Section from '@/components/LinkItems/Section.vue';
 import EditModeSaveMenu from '@/components/InteractiveEditor/EditModeSaveMenu.vue';
 import ExportConfigMenu from '@/components/InteractiveEditor/ExportConfigMenu.vue';
@@ -72,6 +78,8 @@ export default {
   mixins: [HomeMixin],
   components: {
     SettingsContainer,
+    HeaderInfo,
+    SearchEngineSelector,
     EditModeSaveMenu,
     ExportConfigMenu,
     AddNewSection,
@@ -292,6 +300,43 @@ export default {
     margin: 2rem auto;
     padding: 0.5rem 1rem;
     border-radius: var(--curve-factor);
+}
+
+/* Web search engine selector container */
+.web-search-container {
+  max-width: 90%;
+  margin: 1rem auto 0.5rem;
+  
+  @include monitor-up {
+    max-width: 85%;
+  }
+}
+
+/* Header bar container for settings and info */
+.header-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  
+  .settings-outer {
+    flex: 0 1 auto;
+  }
+  
+  .header-info-component {
+    flex-shrink: 0;
+    align-self: center;
+    margin-left: 0.5rem;
+  }
+  
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    .header-info-component {
+      align-self: stretch;
+      margin-left: 0;
+    }
+  }
 }
 
 /* Settings section, includes search, config and user settings */

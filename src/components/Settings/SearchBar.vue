@@ -178,8 +178,8 @@ export default {
     input {
       display: inline-block;
       width: 200px;
-      height: 1rem;
-      padding: 0.5rem;
+      height: 1.5rem;
+      padding: 0.75rem;
       margin: 0.5rem;
       outline: none;
       border: none;
@@ -187,6 +187,7 @@ export default {
       background: var(--search-field-background);
       color: var(--settings-text-color);
       border: 1px solid var(--outline-color);
+      font-size: 0.95rem;
       &:focus {
         border-color: var(--settings-text-color);
         opacity: var(--dimming-factor);
