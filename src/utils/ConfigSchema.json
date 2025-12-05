@@ -764,23 +764,23 @@
         "additionalProperties": false,
         "properties": {
           "name": {
-            "title": "Section Name",
+            "title": "分类名称",
             "type": "string",
-            "description": "Title/ heading for a section"
+            "description": "分类的标题/名称"
           },
           "icon": {
-            "title": "Section Icon",
+            "title": "分类图标",
             "type": "string",
-            "description": "Icon will be displayed next to title"
+            "description": "图标将显示在标题旁边"
           },
           "displayData": {
-            "title": "Display Data",
+            "title": "显示设置",
             "type": "object",
             "additionalProperties": false,
-            "description": "Optional meta data for customizing a section",
+            "description": "自定义分类的可选设置",
             "properties": {
               "sortBy": {
-                "title": "Sort By",
+                "title": "排序方式",
                 "type": "string",
                 "enum": [
                   "default",
@@ -791,13 +791,13 @@
                   "random"
                 ],
                 "default": "default",
-                "description": "How to sort items within the section. By default items are displayed in the order in which they are listed in within the config"
+                "description": "如何对分类内项目进行排序。默认按配置文件中的顺序显示"
               },
               "collapsed": {
-                "title": "Is Collapsed?",
+                "title": "默认折叠？",
                 "type": "boolean",
                 "default": false,
-                "description": "If true, section needs to be clicked to open"
+                "description": "如果启用，分类需要点击才能展开"
               },
               "cutToHeight": {
                 "title": "Cut to Height",
@@ -827,20 +827,20 @@
                 "description": "Size of items within the section"
               },
               "rows": {
-                "title": "Num Rows",
+                "title": "行数",
                 "type": "number",
                 "minimum": 1,
                 "maximum": 5,
                 "default": 1,
-                "description": "The amount of space that the section spans vertically"
+                "description": "分类在垂直方向占据的空间"
               },
               "cols": {
-                "title": "Num Cols",
+                "title": "列数",
                 "type": "number",
                 "minimum": 1,
                 "maximum": 5,
                 "default": 1,
-                "description": "The amount of space that the section spans horizontally"
+                "description": "分类在水平方向占据的空间"
               },
               "sectionLayout": {
                 "title": "Layout Type",
@@ -885,10 +885,10 @@
                 }
               },
               "hideForGuests": {
-                "title": "Hide for Guests?",
+                "title": "对访客隐藏？",
                 "type": "boolean",
                 "default": false,
-                "description": "If set to true, section will be visible for logged in users, but not for guests"
+                "description": "如果启用，分类仅对登录用户可见，访客无法查看"
               },
               "showForKeycloakUsers": {
                 "title": "Show for select Keycloak groups or roles",
@@ -945,9 +945,9 @@
             }
           },
           "items": {
-            "title": "Items",
+            "title": "导航卡片",
             "type": "array",
-            "description": "Array of items to display with a section",
+            "description": "分类中要显示的卡片列表",
             "items": {
               "type": "object",
               "additionalProperties": false,
@@ -956,32 +956,32 @@
               ],
               "properties": {
                 "title": {
-                  "title": "Item Text",
+                  "title": "卡片名称",
                   "type": "string",
-                  "description": "Title of the item"
+                  "description": "卡片的标题"
                 },
                 "description": {
-                  "title": "Description",
+                  "title": "描述",
                   "type": "string",
                   "nullable": true,
-                  "description": "Short description, shown on hover or in a tooltip"
+                  "description": "简短描述，悬停时显示"
                 },
                 "icon": {
-                  "title": "Icon",
+                  "title": "图标",
                   "type": "string",
                   "nullable": true,
-                  "description": "An icon, either as a font-awesome, simple-icon, selfh.st, or mdi identifier, emoji, favicon, generative or the URL/path to a local or remote icon asset"
+                  "description": "图标可以是 font-awesome、简单图标、emoji、favicon 或图片URL"
                 },
                 "url": {
-                  "title": "Service URL",
+                  "title": "链接地址",
                   "type": "string",
-                  "description": "The destination to navigate to when item is clicked, expressed as a valid URL, IP or hostname"
+                  "description": "点击卡片时跳转的目标地址，可以是网址、IP或主机名"
                 },
                 "displayData": {
-                  "title": "Display Data",
+                  "title": "显示设置",
                   "type": "object",
                   "additionalProperties": false,
-                  "description": "Optional meta data for customizing an item",
+                  "description": "自定义卡片的可选设置",
                   "properties": {
                     "hideForUsers": {
                       "title": "Hide for Users",
