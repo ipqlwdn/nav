@@ -16,19 +16,35 @@
 
 <div align="center">
 
-### 🖥️ 桌面端主页
+### 🖥️ 桌面端主页 - 多栏布局
 
-![Desktop Homepage](docs/screenshots/screenshot-1.png)
+![Desktop Homepage](docs/screenshots/demo-desktop.png)
 
-### 📱 移动端适配
+*支持多栏分类展示，一目了然查看所有导航卡片*
 
-<img src="docs/screenshots/mobile-v2.jpg" width="300" alt="Mobile Homepage" />
+---
 
-*支持全网搜索与引擎切换*
+### 📱 响应式分类列表
 
-### 🎨 多彩主题
+![Category Layout](docs/screenshots/demo-categories.png)
 
-![Theme Selector](docs/screenshots/screenshot-5.png)
+*智能响应式布局，自动适配不同屏幕尺寸*
+
+---
+
+### 🎨 内置多彩主题切换
+
+![Theme Panel](docs/screenshots/demo-themes.png)
+
+*20+ 精美内置主题，支持自定义 CSS 样式*
+
+---
+
+### ✏️ 可视化编辑模式
+
+![Edit Mode](docs/screenshots/demo-editor.png)
+
+*无需代码，可视化拖拽编辑，实时预览保存*
 
 </div>
 
