@@ -4,7 +4,7 @@
     :resizable="true"
     width="50%"
     height="80%"
-    classes="dashy-modal export-modal"
+    classes="laowang-modal export-modal"
     @closed="modalClosed"
   >
   <div class="export-config-inner" v-if="allowViewConfig">
@@ -80,7 +80,7 @@ export default {
       return JsYaml.dump(this.config);
     },
     downloadConfig() {
-      const filename = 'dashy_conf.yml';
+      const filename = 'laowang_conf.yml';
       const config = this.convertJsonToYaml();
       const element = document.createElement('a');
       element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(config)}`);

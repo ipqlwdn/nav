@@ -14,12 +14,12 @@
 
     <!-- Modal containing all the configuration options -->
     <modal :name="modalNames.CONF_EDITOR" :resizable="true" width="60%" height="85%"
-      @closed="editorClosed" classes="dashy-modal">
+      @closed="editorClosed" classes="laowang-modal">
       <ConfigContainer :config="combineConfig()" />
     </modal>
 
     <!-- Modal for manually changing locale -->
-    <modal :name="modalNames.LANG_SWITCHER" classes="dashy-modal"
+    <modal :name="modalNames.LANG_SWITCHER" classes="laowang-modal"
       :resizable="true" width="35%" height="60%">
       <LanguageSwitcher />
     </modal>

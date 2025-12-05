@@ -1,4 +1,3 @@
-
 @import '@/styles/style-helpers.scss';
 @import '@/styles/media-queries.scss';
 
@@ -10,33 +9,44 @@ html {
   @extend .scroll-bar;
   @extend .highlight;
   box-sizing: border-box;
+
   /* Essential body styles */
   body {
     background: var(--background);
     margin: 0;
     padding: 0;
   }
+
   /* Make links have pointy cursor */
-  input[type=button], button, a {
+  input[type=button],
+  button,
+  a {
     cursor: pointer;
   }
 }
 
-#dashy {
+#laowang {
   position: relative;
   min-height: 100vh;
 }
 
 /* Hide text, and show 'Loading...' while Vue is initializing tags */
-[v-cloak] > * { display:none }
-[v-cloak]::before { content: "loading…" }
+[v-cloak]>* {
+  display: none
+}
+
+[v-cloak]::before {
+  content: "loading…"
+}
 
 /* Overriding styles for the modal component */
-.vm--modal, .dashy-modal {
+.vm--modal,
+.laowang-modal {
   box-shadow: 0 40px 70px -2px hsl(0deg 0% 0% / 60%), 1px 1px 6px var(--primary) !important;
   min-width: 350px;
   min-height: 200px;
   background: var(--background-darker);
+
   @include phone {
     left: 0.5rem !important;
     right: 0.5rem !important;
@@ -44,6 +54,7 @@ html {
     top: 2rem !important;
   }
 }
+
 .vm--overlay {
   background: #00000080;
 }
@@ -56,11 +67,13 @@ html {
   border-radius: var(--curve-factor) !important;
   font-size: 1.25rem !important;
 }
+
 .toast-error {
   background: var(--danger) !important;
   color: var(--white) !important;
   font-size: 1.25rem !important;
 }
+
 .toast-success {
   background: var(--success) !important;
   color: var(--white) !important;
@@ -73,20 +86,28 @@ html {
     border-color: var(--primary);
     background: var(--background);
     cursor: pointer;
+
     span.vs__selected {
       color: var(--primary);
     }
-    .vs__actions svg path { fill: var(--primary); }
+
+    .vs__actions svg path {
+      fill: var(--primary);
+    }
   }
+
   ul.vs__dropdown-menu {
     background: var(--background);
     border-color: var(--primary);
+
     li {
       color: var(--primary);
+
       &:hover {
         color: var(--background);
         background: var(--primary);
       }
+
       &.vs__dropdown-option--highlight {
         color: var(--background);
         background: var(--primary);
@@ -102,6 +123,7 @@ html {
   max-width: var(--tooltip-width);
   border: none;
   padding: 0;
+
   .tooltip-inner {
     background: var(--description-tooltip-background);
     border: 1px solid var(--description-tooltip-color);
@@ -110,6 +132,7 @@ html {
     padding: var(--tooltip-padding);
     overflow: hidden;
   }
+
   .tooltip-arrow {
     width: 0;
     height: 0;
@@ -120,8 +143,10 @@ html {
     border-width: var(--tooltip-arrow-size);
     z-index: 1;
   }
+
   &[x-placement^="top"] {
     margin-bottom: var(--tooltip-arrow-size);
+
     .tooltip-arrow {
       border-bottom-width: 0;
       border-top-color: var(--description-tooltip-color);
@@ -130,8 +155,10 @@ html {
       margin: 0 var(--tooltip-arrow-size);
     }
   }
+
   &[x-placement^="bottom"] {
     margin-top: var(--tooltip-arrow-size);
+
     .tooltip-arrow {
       border-top-width: 0;
       border-bottom-color: var(--description-tooltip-color);
@@ -140,8 +167,10 @@ html {
       margin: 0 var(--tooltip-arrow-size);
     }
   }
+
   &[x-placement^="right"] {
     margin-left: var(--tooltip-arrow-size);
+
     .tooltip-arrow {
       border-left-width: 0;
       border-right-color: var(--description-tooltip-color);
@@ -150,8 +179,10 @@ html {
       margin: var(--tooltip-arrow-size) 0;
     }
   }
+
   &[x-placement^="left"] {
     margin-right: var(--tooltip-arrow-size);
+
     .tooltip-arrow {
       border-right-width: 0;
       border-left-color: var(--description-tooltip-color);
@@ -160,15 +191,20 @@ html {
       margin: var(--tooltip-arrow-size) 0;
     }
   }
+
   &[aria-hidden='true'] {
     visibility: hidden;
     opacity: 0;
     transition: opacity .15s, visibility .15s;
   }
+
   &[aria-hidden='false'] {
     visibility: visible;
     opacity: 1;
     transition: opacity .15s;
   }
-  &.in-modal-tt { z-index: 999; }
+
+  &.in-modal-tt {
+    z-index: 999;
+  }
 }

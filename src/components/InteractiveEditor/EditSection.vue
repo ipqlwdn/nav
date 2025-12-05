@@ -2,7 +2,7 @@
   <modal
     :name="modalName" @closed="modalClosed"
     :resizable="true" width="50%" height="80%"
-    classes="dashy-modal edit-section"
+    classes="laowang-modal edit-section"
   >
   <div class="edit-section-inner" v-if="allowViewConfig">
     <h3>

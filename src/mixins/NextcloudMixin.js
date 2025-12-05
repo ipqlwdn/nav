@@ -95,14 +95,14 @@ export default {
     /* Helper for widgets to terminate {fetchData} early */
     hasValidCredentials() {
       return this.validCredentials !== false
-             && this.username.length > 0
-             && this.password.length > 0;
+        && this.username.length > 0
+        && this.password.length > 0;
     },
     /* Primary handler for every Nextcloud API response */
     validateResponse(response) {
       const data = response?.ocs?.data;
       let meta = response?.ocs?.meta;
-      const error = response?.error; // Dashy error when cors-proxied
+      const error = response?.error; // LaoWang error when cors-proxied
       if (error && error.status) {
         meta = { statuscode: error.status };
       }

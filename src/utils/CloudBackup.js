@@ -4,7 +4,7 @@ import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
 import { backupEndpoint } from '@/utils/defaults';
 
-const ENDPOINT = backupEndpoint; // 'https://dashy-sync-service.as93.net';
+const ENDPOINT = backupEndpoint; // 'https://laowang-sync-service.as93.net';
 
 /* Stringify, encrypt and encode data for transmission */
 const encryptData = (data, password) => {

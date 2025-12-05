@@ -80,7 +80,7 @@ export default {
         callisto: '木卫四',
         material: '质感设计',
         'material-dark': '质感暗色',
-        'dashy-docs': '文档主题',
+        'laowang-docs': '文档主题',
         colorful: '多彩',
         dracula: '吸血鬼',
         'one-dark': '暗黑一号',

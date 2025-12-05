@@ -68,7 +68,7 @@ const printWelcomeMessage = () => {
     });
   } catch (e) {
     // No clue what could of gone wrong here, but print fallback message if above failed
-    console.log(`Dashy server has started (${port})`); // eslint-disable-line no-console
+    console.log(`LaoWang Nav server has started (${port})`); // eslint-disable-line no-console
   }
 };
 
@@ -220,7 +220,7 @@ http.createServer(app)
     printWelcomeMessage();
   })
   .on('error', (err) => {
-    printWarning('Unable to start Dashy\'s Node server', err);
+    printWarning('Unable to start LaoWang Nav\'s Node server', err);
   });
 
 /* Check, and if possible start SSL server too */

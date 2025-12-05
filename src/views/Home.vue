@@ -313,10 +313,10 @@ export default {
 /* Web search engine selector container */
 .web-search-container {
   margin: 1rem auto 0.5rem;
-  @include phone { 
-    --content-max-width: 100%; 
+  @include phone {
+    --content-max-width: 100%;
     /* padding-right: 3rem;  Removed to fix centering issue */
-    margin-top: 0.5rem; 
+    margin-top: 0.5rem;
   }
   @include tablet { --content-max-width: 98%; }
   @include laptop { --content-max-width: 90%; }

@@ -1,7 +1,7 @@
 <template>
   <modal
     :name="modalName" @closed="close"
-    :resizable="true" width="40%" height="40%" classes="dashy-modal">
+    :resizable="true" width="40%" height="40%" classes="laowang-modal">
     <div class="move-menu-inner" v-if="allowViewConfig">
     <!-- Title and item ID -->
       <h3 class="move-title">Move or Copy Item</h3>

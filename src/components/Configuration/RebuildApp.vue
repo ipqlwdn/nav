@@ -1,5 +1,5 @@
 <template>
-  <modal :name="modalName" :resizable="true" width="50%" height="60%" classes="dashy-modal">
+  <modal :name="modalName" :resizable="true" width="50%" height="60%" classes="laowang-modal">
     <div class="rebuild-app-container">
       <!-- Title, intro and start button -->
       <h3 class="rebuild-app-title">{{ $t('app-rebuild.title') }}</h3>

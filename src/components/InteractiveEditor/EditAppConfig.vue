@@ -4,7 +4,7 @@
     :resizable="true"
     width="50%"
     height="80%"
-    classes="dashy-modal edit-app-config"
+    classes="laowang-modal edit-app-config"
     @closed="modalClosed"
   >
   <div class="edit-app-config-inner" v-if="allowViewConfig">

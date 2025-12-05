@@ -26,10 +26,10 @@ export default {
       this.processedSrc = '';
       this.$nextTick(() => {
         if (this.$refs.originalImage && this.$refs.originalImage.complete) {
-            this.processImage();
+          this.processImage();
         }
       });
-    }
+    },
   },
   methods: {
     processImage() {
@@ -39,34 +39,34 @@ export default {
       // Create a canvas
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      
+
       // Set canvas dimensions to image dimensions
       canvas.width = img.naturalWidth || img.width;
       canvas.height = img.naturalHeight || img.height;
-      
+
       // Draw the image
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      
+
       // Get image data
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
-      
+      const { data } = imageData;
+
       // Loop through pixels
       for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        
+
         // Check if pixel is dark (black background)
         // Using sum of RGB values for better dark detection
         if (r + g + b < this.tolerance * 3) {
           data[i + 3] = 0; // Set alpha to 0 (transparent)
         }
       }
-      
+
       // Put image data back
       ctx.putImageData(imageData, 0, 0);
-      
+
       // Convert to Data URL
       this.processedSrc = canvas.toDataURL('image/png');
     },

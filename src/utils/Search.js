@@ -1,4 +1,4 @@
-/* Dashy: Licensed under MIT, (C) Alicia Sykes 2024 <https://aliciasykes.com> */
+/* LaoWang Nav: Based on Dashy, Licensed under MIT, (C) Alicia Sykes 2024 <https://aliciasykes.com> */
 
 /* Tile filtering utility */
 import ErrorHandler from '@/utils/ErrorHandler';

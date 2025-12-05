@@ -53,7 +53,7 @@ module.exports = {
     'callisto',
     'material',
     'material-dark',
-    'dashy-docs',
+    'laowang-docs',
     'colorful',
     'dracula',
     'one-dark',
@@ -142,7 +142,7 @@ module.exports = {
   },
   /* Key names for cookie identifiers */
   cookieKeys: {
-    AUTH_TOKEN: 'dashyAuthToken',
+    AUTH_TOKEN: 'laowangAuthToken',
   },
   /* Key names for session storage identifiers */
   sessionStorageKeys: {
@@ -193,7 +193,7 @@ module.exports = {
     // delay: { show: 380, hide: 0 },
   },
   /* Server location of the Backup & Sync cloud function */
-  backupEndpoint: 'https://sync-service.dashy.to',
+  backupEndpoint: 'https://sync-service.laowang.nav',
   /* Available services for fetching favicon icon for user apps */
   faviconApiEndpoints: {
     allesedv: 'https://f1.allesedv.com/128/$URL',
@@ -328,8 +328,8 @@ module.exports = {
       favicon64: './web-icons/favicon-64x64.png',
       favicon32: './web-icons/favicon-32x32.png',
       favicon16: './web-icons/favicon-16x16.png',
-      maskIcon: './web-icons/dashy-logo.png',
-      msTileImage: './web-icons/dashy-logo.png',
+      maskIcon: './web-icons/laowang-logo.png',
+      msTileImage: './web-icons/laowang-logo.png',
     },
     workboxOptions: {
       exclude: [

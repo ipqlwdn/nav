@@ -136,10 +136,10 @@ export default {
   @include phone {
     display: none !important;
   }
-  
+
   .burger {
     display: none;
-    /* Only show burger if there are many links, but for now user wants GitHub visible. 
+    /* Only show burger if there are many links, but for now user wants GitHub visible.
        We will hide burger and show links directly as requested for the "folded github" issue. */
     /* &.visible { display: block; } */
     /* @include phone { display: block; } */

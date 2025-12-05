@@ -262,17 +262,17 @@ export default {
         flex-direction: row;
         align-items: baseline;
         gap: 0.3rem;
-        
-        /* On mobile, maybe hide location or put it inline? 
+
+        /* On mobile, maybe hide location or put it inline?
            User didn't specify mobile behavior for location, but usually space is tight.
            I'll try to keep it if possible, or hide it.
            Let's keep it but maybe smaller.
         */
-        
+
         .date-row {
             gap: 0.3rem;
         }
-        
+
         .location-row {
             display: none; /* Hide location on very small screens to avoid clutter? Or keep it? */
         }

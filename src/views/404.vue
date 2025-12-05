@@ -17,7 +17,7 @@ export default {
   name: 'not-found',
   methods: {
     setTheme() {
-      document.getElementsByTagName('html')[0].setAttribute('data-theme', 'dashy-docs');
+      document.getElementsByTagName('html')[0].setAttribute('data-theme', 'laowang-docs');
     },
   },
   mounted() {

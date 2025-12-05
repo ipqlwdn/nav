@@ -2,7 +2,7 @@
   <div :class="minimalSearch ? 'minimal' : 'normal'">
     <!-- Desktop/Tablet Label -->
     <label for="filter-tiles" class="desktop-only">{{ $t('search.search-label') }}</label>
-    
+
     <!-- Desktop/Tablet Search Input -->
     <div class="search-wrap desktop-only">
       <input
@@ -20,9 +20,9 @@
         <div class="search-engine-selector" @click="toggleEngineMenu">
           <img :src="currentEngineIcon" class="engine-icon" alt="Engine" />
           <div v-if="showEngineMenu" class="engine-menu">
-            <div 
-              v-for="(engine, key) in webEngines" 
-              :key="key" 
+            <div
+              v-for="(engine, key) in webEngines"
+              :key="key"
               class="engine-option"
               @click.stop="selectEngine(key)"
             >
@@ -31,10 +31,10 @@
             </div>
           </div>
         </div>
-        <input 
-          type="text" 
-          v-model="webSearchQuery" 
-          :placeholder="`Search ${currentEngineName}...`" 
+        <input
+          type="text"
+          v-model="webSearchQuery"
+          :placeholder="`Search ${currentEngineName}...`"
           @keyup.enter="performWebSearch"
           class="web-search-input"
         />
@@ -66,18 +66,18 @@ export default {
         baidu: {
           name: 'Baidu',
           url: 'https://www.baidu.com/s?wd=',
-          icon: 'https://www.baidu.com/favicon.ico'
+          icon: 'https://www.baidu.com/favicon.ico',
         },
         bing: {
           name: 'Bing',
           url: 'https://www.bing.com/search?q=',
-          icon: 'https://www.bing.com/favicon.ico'
+          icon: 'https://www.bing.com/favicon.ico',
         },
         google: {
           name: 'Google',
           url: 'https://www.google.com/search?q=',
-          icon: 'https://www.google.com/favicon.ico'
-        }
+          icon: 'https://www.google.com/favicon.ico',
+        },
       },
       akn: new ArrowKeyNavigation(), // Class that manages arrow key naviagtion
       getCustomKeyShortcuts,
@@ -193,7 +193,7 @@ export default {
       margin: 0.5rem;
       outline: none;
       border-radius: var(--curve-factor);
-      
+
       /* Match SearchEngineSelector style */
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(12px);
@@ -248,7 +248,7 @@ export default {
     padding: 0 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
-    
+
     .search-engine-selector {
       display: flex;
       align-items: center;
@@ -258,7 +258,7 @@ export default {
       cursor: pointer;
       border-right: 1px solid rgba(255, 255, 255, 0.1);
       padding-right: 0.5rem;
-      
+
       .engine-icon {
         width: 20px;
         height: 20px;
@@ -295,7 +295,7 @@ export default {
             height: 16px;
             border-radius: 50%;
           }
-          
+
           span {
             font-size: 0.9rem;
           }
@@ -313,7 +313,7 @@ export default {
       outline: none;
       width: 100%;
       margin: 0; /* Override default input margin */
-      
+
       &::placeholder {
         color: rgba(255, 255, 255, 0.4);
       }
@@ -334,11 +334,11 @@ export default {
     gap: 0.2rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     min-width: 70px;
-    
+
     .github-icon {
       color: #fff;
     }
-    
+
     span {
       font-weight: 500;
     }
@@ -350,7 +350,7 @@ export default {
       text-align: center;
     }
   }
-  
+
   @include phone {
     div.normal {
       flex: 1;

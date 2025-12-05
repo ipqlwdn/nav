@@ -105,12 +105,12 @@ export default {
       align-items: center;
     }
   }
-  
+
   .github-text-link {
     font-size: 1.2rem;
     font-weight: 700;
     text-decoration: none;
-    
+
     /* Rainbow Gradient */
     background: linear-gradient(90deg,
       #ff0000 0%,
@@ -127,7 +127,7 @@ export default {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: rainbowFlow 10s linear infinite;
-    
+
     &:hover {
       opacity: 0.8;
     }
@@ -164,7 +164,7 @@ export default {
     border-radius: 50%; /* Circular icon */
     object-fit: cover;
     /* mix-blend-mode removed, handled by component */
-    
+
     @include phone {
       height: 2rem;
       width: 2rem;
@@ -176,7 +176,7 @@ export default {
     font-weight: 700;
     white-space: nowrap;
     letter-spacing: 0.5px;
-    
+
     /* Rainbow Gradient */
     background: linear-gradient(90deg,
       #ff0000 0%,
@@ -193,7 +193,7 @@ export default {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: rainbowFlow 10s linear infinite;
-    
+
     @include phone {
       font-size: 1.2rem;
     }

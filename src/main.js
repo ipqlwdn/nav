@@ -11,8 +11,8 @@ import VTabs from 'vue-material-tabs';  // Tab view component, used on the confi
 import Toasted from 'vue-toasted';      // Toast component, used to show confirmation notifications
 import TreeView from 'vue-json-tree-view';
 
-// Import base Dashy components and utils
-import Dashy from '@/App.vue';          // Main Dashy Vue app
+// Import base LaoWang Nav components and utils
+import LaoWangNav from '@/App.vue';          // Main LaoWang Nav Vue app
 import store from '@/store';            // Store, for local state management
 import router from '@/router';          // Router, for navigation
 import serviceWorker from '@/utils/InitServiceWorker'; // Service worker initialization
@@ -55,7 +55,7 @@ serviceWorker();
 ErrorReporting(Vue, router);
 
 // Render function
-const render = (awesome) => awesome(Dashy);
+const render = (awesome) => awesome(LaoWangNav);
 
 // Mount the app, with router, store i18n and render func
 const mount = () => new Vue({

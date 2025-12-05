@@ -1,5 +1,5 @@
 /**
- * Dashy is built using Vue (2). This is the main Vue and Webpack configuration
+ * LaoWang Nav is built using Vue (2). This is the main Vue and Webpack configuration
  *
  * User Configurable Options:
  * - NODE_ENV: Sets the app mode (production, development, test).
@@ -11,7 +11,7 @@
  *
  * Documentation:
  * - Vue CLI Config options: https://cli.vuejs.org/config
- * - For Dashy docs, see the repo: https://github.com/lissy93/dashy
+ * - For LaoWang Nav docs, see the repo: https://github.com/tony-wang1990/laowang-nav
  *
  * Note: ES7 syntax is not supported in this configuration context.
  * Licensed under the MIT License, (C) Alicia Sykes 2024 (see LICENSE for details).
@@ -80,7 +80,7 @@ const devServer = {
 
 // Application pages
 const pages = {
-  dashy: {
+  laowang: {
     entry: 'src/main.js',
     filename: 'index.html',
   },

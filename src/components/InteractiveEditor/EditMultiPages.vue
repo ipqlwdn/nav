@@ -2,7 +2,7 @@
   <modal
     :name="modalName" @closed="modalClosed"
     :resizable="true" width="50%" height="80%"
-    classes="dashy-modal edit-multi-pages"
+    classes="laowang-modal edit-multi-pages"
   >
   <div class="edit-multi-pages-inner" v-if="allowViewConfig">
   <h3>{{ $t('interactive-editor.menu.edit-page-info-btn') }}</h3>

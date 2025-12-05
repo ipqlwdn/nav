@@ -1,6 +1,6 @@
 <template>
   <modal :name="name" :resizable="true" width="80%" height="80%" @closed="modalClosed()"
-    classes="dashy-modal">
+    classes="laowang-modal">
     <div slot="top-right" @click="hide()">Close</div>
     <a @click="hide()" class="close-button" title="Close">x</a>
     <iframe v-if="url" :src="url" @keydown.esc="close" class="frame"

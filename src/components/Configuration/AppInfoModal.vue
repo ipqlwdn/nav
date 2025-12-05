@@ -1,5 +1,5 @@
 <template>
-  <modal :name="modalName" :resizable="true" width="55%" height="80%" classes="dashy-modal">
+  <modal :name="modalName" :resizable="true" width="55%" height="80%" classes="laowang-modal">
     <div class="about-modal">
       <router-link to="/about" class="title"><h2>{{ $t('app-info.title') }}</h2></router-link>
       <!-- Error Log -->
