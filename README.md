@@ -60,7 +60,7 @@
 
 - 🚀 **极速加载**: 经过优化的代码，秒级响应
 - 🎨 **多主题支持**: 内置 20+ 精美主题，支持自定义 CSS
-- ☁️ **多云一键部署**: 支持 Zeabur、Vercel、Netlify 等平台
+- ☁️ **多云一键部署**: 支持 Zeabur、Vercel、Railway 等平台
 - 🔍 **集成搜索引擎**: 
   - 桌面端：站内快速筛选
   - **移动端**：支持 Baidu/Bing/Google 全网搜索切换
@@ -122,7 +122,6 @@ git push
 |------|----------|
 | **Zeabur** (推荐) | [![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/2Q624P) |
 | **Vercel** | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tony-wang1990/laowang-nav) |
-| **Netlify** | [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/tony-wang1990/laowang-nav) |
 | **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/tony-wang1990/laowang-nav) |
 | **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/tony-wang1990/laowang-nav) |
 
