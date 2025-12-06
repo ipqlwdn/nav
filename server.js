@@ -22,8 +22,8 @@ const express = require('express');
 const basicAuth = require('express-basic-auth');
 const history = require('connect-history-api-fallback');
 
-/* Kick of some basic checks */
-require('./services/update-checker'); // Checks if there are any updates available, prints message
+// Disabled to speed up container startup - update checks can be slow in production
+// require('./services/update-checker'); // Checks if there are any updates available, prints message
 
 let config = {}; // setup the config
 config = require('./services/config-validator'); // Include and kicks off the config file validation script

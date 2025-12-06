@@ -52,4 +52,5 @@ CMD [ "yarn", "start" ]
 EXPOSE ${PORT}
 
 # Run simple healthchecks every 5 mins, to check that everythings still great
-HEALTHCHECK --interval=5m --timeout=5s --start-period=30s CMD yarn health-check
+# Extended start-period to 120s to allow proper initialization (update checks, config validation, etc.)
+HEALTHCHECK --interval=5m --timeout=10s --start-period=120s CMD yarn health-check
