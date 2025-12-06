@@ -203,29 +203,6 @@ sections:
 
 ## 🙏 致谢
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/Lissy93/dashy">
-        <img src="https://avatars.githubusercontent.com/u/1862727?v=4" width="80px" alt="Dashy"/>
-        <br />
-        <sub><b>Dashy</b></sub>
-      </a>
-      <br />
-      <sub>原始项目</sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/Lissy93">
-        <img src="https://avatars.githubusercontent.com/u/1862727?v=4" width="80px" alt="Alicia Sykes"/>
-        <br />
-        <sub><b>Alicia Sykes</b></sub>
-      </a>
-      <br />
-      <sub>原作者</sub>
-    </td>
-  </tr>
-</table>
-
 > 💡 本项目基于 [Dashy](https://github.com/Lissy93/dashy) 二次开发，增加了中文本地化和功能增强。感谢原作者的开源贡献！
 
 ---
