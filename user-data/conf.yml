@@ -13,6 +13,9 @@ sections:
         description: 通知管理系统
         icon: https://img.icons8.com/ios-filled/150/228BE6/reminders.png
         url: https://notification.eooce.xx.kg
+      - title: 测试自动图标
+        description: 这是一个没有设置图标的测试网站，应该自动获取favicon
+        url: https://www.baidu.com
       - title: Youtube
         description: 全球最大的视频社区
         icon: https://img.icons8.com/ios-filled/100/ff1d06/youtube-play.png
