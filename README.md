@@ -140,7 +140,7 @@ git push
 
 ```bash
 docker run -d \
-  -p 8080:80 \
+  -p 8080:8080 \
   --name laowang-nav \
   --restart always \
   ghcr.io/tony-wang1990/laowang-nav:latest
