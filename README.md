@@ -136,6 +136,8 @@ git push
 
 ### 方式二：Docker 部署
 
+> 💡 **多架构支持**：Docker 镜像同时支持 **AMD64** (Intel/AMD 服务器) 和 **ARM64** (树莓派/Oracle ARM 等)，自动适配您的服务器架构！
+
 ```bash
 docker run -d \
   -p 8080:80 \
