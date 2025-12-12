@@ -2,8 +2,11 @@
 <div class="weather">
   <!-- Icon + Temperature -->
   <div class="intro">
-    <p class="temp">{{ temp }}</p>
-    <i :class="`owi owi-${icon}`"></i>
+    <div class="main-info">
+      <p class="temp">{{ temp }}</p>
+      <i :class="`owi owi-${icon}`"></i>
+    </div>
+    <p class="location" v-if="location">📍 {{ location }}</p>
   </div>
   <!-- Weather description -->
   <p class="description">{{ description }}</p>
@@ -31,94 +34,161 @@ export default {
   data() {
     return {
       loading: true,
-      icon: null,
-      description: null,
-      temp: null,
+      icon: '01d', // Default icon
+      description: 'Loading...',
+      temp: '--',
+      location: '',
       showDetails: false,
       weatherDetails: [],
     };
   },
   mounted() {
-    this.checkProps();
+    this.fetchSmartWeather();
   },
   computed: {
-    units() {
-      return this.options.units || 'metric';
-    },
-    endpoint() {
-      const apiKey = this.parseAsEnvVar(this.options.apiKey);
-      const { city, lat, lon } = this.options;
-      const params = (lat && lon)
-        ? `lat=${lat}&lon=${lon}&appid=${apiKey}&units=${this.units}`
-        : `q=${city}&appid=${apiKey}&units=${this.units}`;
-      return `${widgetApiEndpoints.weather}?${params}`;
-    },
-    tempDisplayUnits() {
-      switch (this.units) {
-        case ('metric'): return '°C';
-        case ('imperial'): return '°F';
-        default: return '';
-      }
-    },
-    speedDisplayUnits() {
-      switch (this.units) {
-        case ('metric'): return 'm/s';
-        case ('imperial'): return 'mph';
-        default: return '';
-      }
-    },
+    units() { return this.options.units || 'metric'; },
+    tempDisplayUnits() { return this.units === 'imperial' ? '°F' : '°C'; },
   },
   methods: {
-    /* Adds units symbol to temperature, depending on metric or imperial */
-    processTemp(temp) {
-      return `${Math.round(temp)}${this.tempDisplayUnits}`;
+    /* Main Entry: Try sources in order */
+    async fetchSmartWeather() {
+      this.loading = true;
+      // 1. Try VVHan (Best for China)
+      if (await this.fetchVVHan()) return;
+      
+      // 2. Try Oioweb (Backup for China)
+      if (await this.fetchOioweb()) return;
+
+      // 3. Try OpenWeatherMap (If API Key provided)
+      if (this.options.apiKey && await this.fetchOWM()) return;
+
+      // 4. Fallback to Wttr.in
+      await this.fetchWttr();
+      this.loading = false;
     },
-    fetchData() {
-      this.makeRequest(this.endpoint).then(this.processData);
+
+    /* --- Source 1: VVHan --- */
+    async fetchVVHan() {
+      try {
+        const res = await fetch('https://api.vvhan.com/api/weather');
+        const data = await res.json();
+        if (data.success && data.info) {
+          this.temp = data.info.high.replace('°C', '');
+          this.description = data.info.type;
+          this.location = data.city || 'Local';
+          this.icon = this.mapIcon(data.info.type);
+          this.makeSimpleDetails(data.info);
+          return true;
+        }
+      } catch (e) { /* ignore */ }
+      return false;
     },
-    /* Fetches the weather from OpenWeatherMap, and processes results */
-    processData(data) {
-      this.icon = data.weather[0].icon;
-      this.description = data.weather[0].description;
-      this.temp = this.processTemp(data.main.temp);
-      if (!this.options.hideDetails) {
-        this.makeWeatherData(data);
+
+    /* --- Source 2: Oioweb --- */
+    async fetchOioweb() {
+      try {
+        const res = await fetch('https://api.oioweb.cn/api/weather/weather');
+        const data = await res.json();
+        if (data.code === 200 && data.result) {
+          const w = data.result;
+          this.temp = w.current_temperature;
+          this.description = w.weather;
+          this.location = w.city_name;
+          this.icon = this.mapIcon(w.weather);
+          // Oioweb provides richer details, we can use them if needed
+          return true;
+        }
+      } catch (e) { /* ignore */ }
+      return false;
+    },
+
+    /* --- Source 3: OpenWeatherMap (Legacy) --- */
+    async fetchOWM() {
+      try {
+        const apiKey = this.parseAsEnvVar(this.options.apiKey);
+        const { city, lat, lon } = this.options;
+        const params = (lat && lon)
+          ? `lat=${lat}&lon=${lon}&appid=${apiKey}&units=${this.units}`
+          : `q=${city || 'Beijing'}&appid=${apiKey}&units=${this.units}`;
+        const url = `${widgetApiEndpoints.weather}?${params}`;
+        
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.cod === 200) {
+          this.processOWMData(data);
+          return true;
+        }
+      } catch (e) { /* ignore */ }
+      return false;
+    },
+
+    /* --- Source 4: Wttr.in (Fallback) --- */
+    async fetchWttr() {
+      try {
+        const res = await fetch('https://wttr.in/?format=j1'); // JSON format
+        const data = await res.json();
+        const current = data.current_condition[0];
+        const area = data.nearest_area[0];
+        
+        this.temp = current.temp_C; // Wttr defaults usually metric
+        this.description = current.weatherDesc[0].value;
+        this.location = area.areaName[0].value;
+        this.icon = '01d'; // Hard to map seamlessly, use default
+      } catch (e) {
+        this.description = 'Offline';
+        this.location = 'Unknown';
       }
     },
-    /* If showing additional info, then generate this data too */
-    makeWeatherData(data) {
+
+    /* Helper: Map conditions to OWI icons */
+    mapIcon(condition) {
+      if (!condition) return '01d';
+      const c = condition.toString();
+      if (c.includes('晴')) return '01d';
+      if (c.includes('云') || c.includes('阴')) return '02d';
+      if (c.includes('雨')) return '09d';
+      if (c.includes('雪')) return '13d';
+      if (c.includes('雷')) return '11d';
+      if (c.includes('雾')) return '50d';
+      return '01d';
+    },
+
+    makeSimpleDetails(info) {
+      this.weatherDetails = [[
+        { label: 'Low', value: info.low },
+        { label: 'High', value: info.high },
+        { label: 'Wind', value: info.fengxiang }
+      ]];
+    },
+
+    /* Legacy OWM Processor */
+    processOWMData(data) {
+      this.icon = data.weather[0].icon;
+      this.description = data.weather[0].description;
+      this.temp = Math.round(data.main.temp) + this.tempDisplayUnits;
+      this.location = data.name;
+      if (!this.options.hideDetails) {
+        this.makeOWMDetails(data);
+      }
+    },
+
+    /* Legacy OWM Details */
+    makeOWMDetails(data) {
       this.weatherDetails = [
         [
-          { label: 'Min Temp', value: this.processTemp(data.main.temp_min) },
-          { label: 'Max Temp', value: this.processTemp(data.main.temp_max) },
-          { label: 'Feels Like', value: this.processTemp(data.main.feels_like) },
+          { label: 'Min', value: Math.round(data.main.temp_min) + this.tempDisplayUnits },
+          { label: 'Max', value: Math.round(data.main.temp_max) + this.tempDisplayUnits },
+          { label: 'Feels', value: Math.round(data.main.feels_like) + this.tempDisplayUnits },
         ],
         [
-          { label: 'Pressure', value: `${data.main.pressure}hPa` },
-          { label: 'Humidity', value: `${data.main.humidity}%` },
-          { label: 'visibility', value: data.visibility },
-          { label: 'wind', value: `${data.wind.speed}${this.speedDisplayUnits}` },
-          { label: 'clouds', value: `${data.clouds.all}%` },
+          { label: 'Hum', value: `${data.main.humidity}%` },
+          { label: 'Wind', value: `${data.wind.speed}m/s` },
         ],
       ];
     },
-    /* Show/ hide additional weather info */
-    toggleDetails() {
-      this.showDetails = !this.showDetails;
-    },
-    /* Validate input props, and print warning if incorrect */
-    checkProps() {
-      const ops = this.options;
-      if (!ops.apiKey) this.error('Missing API key for OpenWeatherMap');
 
-      if ((!ops.lat || !ops.lon) && !ops.city) {
-        this.error('A city name or lat + lon is required to fetch weather');
-      }
-
-      if (ops.units && ops.units !== 'metric' && ops.units !== 'imperial') {
-        this.error('Invalid units specified, must be either \'metric\' or \'imperial\'');
-      }
-    },
+    toggleDetails() { this.showDetails = !this.showDetails; },
+    checkProps() { /* Deprecated strict checks, but we keep structure */ },
   },
 };
 </script>
@@ -141,15 +211,31 @@ export default {
   .intro {
     grid-column-start: span 2;
     display: flex;
-    justify-content: space-around;
-    .owi {
-      font-size: 3rem;
-      color: var(--widget-text-color);
-      margin: 0;
+    flex-direction: column;
+    align-items: center;
+    
+    .main-info {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      align-items: center;
+      
+      .owi {
+        font-size: 3rem;
+        color: var(--widget-text-color);
+        margin: 0;
+      }
+      .temp {
+        font-size: 3rem;
+        margin: 0;
+      }
     }
-    .temp {
-      font-size: 3rem;
-      margin: 0;
+    
+    .location {
+      margin: 0.2rem 0 0 0;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      color: var(--widget-text-color);
     }
   }
   // Weather description
