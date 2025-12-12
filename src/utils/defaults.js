@@ -192,8 +192,11 @@ module.exports = {
     defaultDelay: { show: 380, hide: 0 },
     // delay: { show: 380, hide: 0 },
   },
-  /* Server location of the Backup & Sync cloud function */
-  backupEndpoint: 'https://sync-service.laowang.nav',
+  /* Server location of the Backup & Sync cloud function 
+   * NOTE: Set this to your own self-hosted sync service endpoint.
+   * Leave empty to disable cloud backup by default.
+   */
+  backupEndpoint: '',
   /* Available services for fetching favicon icon for user apps */
   faviconApiEndpoints: {
     allesedv: 'https://f1.allesedv.com/128/$URL',

@@ -240,3 +240,12 @@ Made with ❤️ by [LaoWang](https://github.com/tony-wang1990)
 ⭐ 如果觉得不错，请给个 Star！
 
 </div>
+### ☁️ 云端备份配置
+默认情况下，云端备份功能已禁用（不连接任何外部服务器）。
+如需启用，请在 `user-data/conf.yml` 的 `appConfig` 部分添加您的自建服务地址：
+
+```yaml
+appConfig:
+  # ... 其他配置
+  backupEndpoint: 'https://your-sync-server.com'
+```

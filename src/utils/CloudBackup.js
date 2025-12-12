@@ -3,8 +3,15 @@ import aes from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
 import { backupEndpoint } from '@/utils/defaults';
+import ConfigAccumulator from '@/utils/ConfigAccumalator';
 
-const ENDPOINT = backupEndpoint; // 'https://laowang-sync-service.as93.net';
+/* Retrieves the backup endpoint from appConfig, or defaults to blank */
+const getEndpoint = () => {
+  const configAccumulator = new ConfigAccumulator();
+  const config = configAccumulator.config();
+  // Priority: 1. appConfig.backupEndpoint, 2. defaults.js (which is now '')
+  return (config.appConfig && config.appConfig.backupEndpoint) || backupEndpoint;
+};
 
 /* Stringify, encrypt and encode data for transmission */
 const encryptData = (data, password) => {
@@ -20,24 +27,34 @@ const decryptData = (data, password) => aes.decrypt(data, password).toString(Utf
 const makeSubHash = (pass) => sha256(pass).toString().slice(0, 14);
 
 /* Makes the backup */
-export const backup = (data, password) => axios.post(ENDPOINT, {
-  userData: encryptData(data, password),
-  subHash: makeSubHash(password),
-});
+export const backup = (data, password) => {
+  const endpoint = getEndpoint();
+  if (!endpoint) return Promise.reject({ data: { errorMsg: 'Backup endpoint not configured' } });
+  return axios.post(endpoint, {
+    userData: encryptData(data, password),
+    subHash: makeSubHash(password),
+  });
+};
 
 /* Updates and existing backup */
-export const update = (data, password, backupId) => axios.put(ENDPOINT, {
-  backupId,
-  userData: encryptData(data, password),
-  subHash: makeSubHash(password),
-});
+export const update = (data, password, backupId) => {
+  const endpoint = getEndpoint();
+  if (!endpoint) return Promise.reject({ data: { errorMsg: 'Backup endpoint not configured' } });
+  return axios.put(endpoint, {
+    backupId,
+    userData: encryptData(data, password),
+    subHash: makeSubHash(password),
+  });
+};
 
 const encodeGetParams = p => Object.entries(p).map(kv => kv.map(encodeURIComponent).join('=')).join('&');
 
 /* Restores the backup */
 export const restore = (backupId, password) => {
   const params = encodeGetParams({ backupId, subHash: makeSubHash(password) });
-  const url = `${ENDPOINT}/?${params}`;
+  const endpoint = getEndpoint();
+  if (!endpoint) return Promise.reject('Backup endpoint not configured');
+  const url = `${endpoint}/?${params}`;
   return new Promise((resolve, reject) => {
     axios.get(url).then((response) => {
       if (!response.data || response.data.errorMsg) {
