@@ -6,11 +6,11 @@
   "additionalProperties": false,
   "properties": {
     "pages": {
-      "title": "Page List",
+      "title": "页面列表",
       "type": "array",
-      "description": "List of additional config files to load as extra pages",
+      "description": "加载为额外页面的配置文件列表",
       "items": {
-        "title": "Page",
+        "title": "页面",
         "type": "object",
         "required": [
           "name",
@@ -19,93 +19,93 @@
         "additionalProperties": false,
         "properties": {
           "name": {
-            "title": "Name",
+            "title": "名称",
             "type": "string",
-            "description": "Unique page identifier"
+            "description": "唯一页面标识符"
           },
           "path": {
-            "title": "Path",
+            "title": "路径",
             "type": "string",
-            "description": "The file name, or path. If in public directory, use just `file-name.yml`"
+            "description": "文件名或路径。如果在public目录中，使用 `file-name.yml`"
           },
           "displayData": {
-            "title": "Display Data",
+            "title": "显示设置",
             "type": "object",
             "additionalProperties": false,
-            "description": "Optional meta data for customizing a page",
+            "description": "自定义页面的可选元数据",
             "properties": {
               "hideForUsers": {
-                "title": "Hide for Users",
+                "title": "对用户隐藏",
                 "type": "array",
-                "description": "Page will be visible to all users, except for those specified in this list",
+                "description": "页面对所有用户可见，除了此列表中指定的用户",
                 "items": {
                   "type": "string",
-                  "description": "Username for the user that will not be able to view this page"
+                  "description": "无法查看此页面的用户名"
                 }
               },
               "showForUsers": {
-                "title": "Show for Users",
+                "title": "对用户显示",
                 "type": "array",
-                "description": "Page will be hidden from all users, except for those specified in this list",
+                "description": "页面对所有用户隐藏，除了此列表中指定的用户",
                 "items": {
                   "type": "string",
-                  "description": "Username for the user that will have access to this page"
+                  "description": "有权访问此页面的用户名"
                 }
               },
               "hideForGuests": {
-                "title": "Hide for Guests?",
+                "title": "对访客隐藏？",
                 "type": "boolean",
                 "default": false,
-                "description": "If set to true, page will be visible for logged in users, but not for guests"
+                "description": "如果设为true，页面仅对登录用户可见，访客无法查看"
               },
               "showForKeycloakUsers": {
-                "title": "Show for select Keycloak groups or roles",
+                "title": "为选定的Keycloak组或角色显示",
                 "type": "object",
-                "description": "Configure the Keycloak groups or roles that will have access to this page",
+                "description": "配置可以访问此页面的Keycloak组或角色",
                 "additionalProperties": false,
                 "properties": {
                   "groups": {
-                    "title": "Show for Groups",
+                    "title": "为组显示",
                     "type": "array",
-                    "description": "Page will be hidden from all users except those with one or more of these groups",
+                    "description": "页面对所有用户隐藏，除了拥有这些组之一的用户",
                     "items": {
                       "type": "string",
-                      "description": "Name of the group that will be able to view this page"
+                      "description": "可以查看此页面的组名称"
                     }
                   },
                   "roles": {
-                    "title": "Show for Roles",
+                    "title": "为角色显示",
                     "type": "array",
-                    "description": "Page will be hidden from all users except those with one or more of these roles",
+                    "description": "页面对所有用户隐藏，除了拥有这些角色之一的用户",
                     "items": {
                       "type": "string",
-                      "description": "Name of the role that will be able to view this page"
+                      "description": "可以查看此页面的角色名称"
                     }
                   }
                 }
               },
               "hideForKeycloakUsers": {
-                "title": "Hide for select Keycloak groups or roles",
+                "title": "为选定的Keycloak组或角色隐藏",
                 "type": "object",
-                "description": "Configure the Keycloak groups or roles that will not have access to this page",
+                "description": "配置无法访问此页面的Keycloak组或角色",
                 "additionalProperties": false,
                 "properties": {
                   "groups": {
-                    "title": "Hide for Groups",
+                    "title": "对组隐藏",
                     "type": "array",
-                    "description": "Page will be hidden from users with any of these groups",
+                    "description": "拥有这些组的用户无法查看此页面",
                     "items": {
                       "type": "string",
-                      "description": "name of the group that will not be able to view this page"
+                      "description": "无法查看此页面的组名称"
                     }
                   },
                   "roles": {
-                    "title": "Hide for Roles",
+                    "title": "对角色隐藏",
                     "type": "array",
-                    "description": "Page will be hidden from users with any of roles",
+                    "description": "拥有这些角色的用户无法查看此页面",
                     "items": {
                       "type": "string",
-                      "description": "name of the role that will not be able to view this page"
+                      "description": "无法查看此页面的角色名称"
                     }
                   }
                 }
@@ -148,7 +148,7 @@
                 "type": "string"
               },
               "target": {
-                "title": "Opening Method",
+                "title": "打开方式",
                 "type": "string",
                 "enum": [
                   "newtab",
@@ -157,7 +157,7 @@
                   "top"
                 ],
                 "default": "newtab",
-                "description": "Where / how the item is opened when it's clicked"
+                "description": "点击项目时的打开方式/位置"
               }
             }
           }
@@ -196,7 +196,7 @@
           "description": "默认加载的页面视图"
         },
         "defaultOpeningMethod": {
-          "title": "Default Opening Method",
+          "title": "默认打开方式",
           "type": "string",
           "enum": [
             "newtab",
@@ -208,19 +208,19 @@
             "clipboard"
           ],
           "default": "newtab",
-          "description": "The default opening method for items. Only used if no item.target is specified"
+          "description": "项目的默认打开方式。仅在未指定item.target时使用"
         },
         "statusCheck": {
-          "title": "Enable Status Checks",
+          "title": "启用状态检查",
           "type": "boolean",
           "default": false,
-          "description": "Displays an online/ offline status for each of your services"
+          "description": "为每个服务显示在线/离线状态"
         },
         "statusCheckInterval": {
-          "title": "Status Check Interval",
+          "title": "状态检查间隔",
           "type": "number",
           "default": 0,
-          "description": "How often to recheck statuses. If set to 0, status will only be checked on page load"
+          "description": "重新检查状态的频率。如果设为0，仅在页面加载时检查状态"
         },
         "language": {
           "title": "语言",
@@ -262,7 +262,7 @@
           "description": "要作为背景显示的图片资源 URL"
         },
         "faviconApi": {
-          "title": "Favicon API",
+          "title": "图标API",
           "type": "string",
           "enum": [
             "local",
@@ -276,12 +276,12 @@
             "besticon"
           ],
           "default": "allesedv",
-          "description": "Which service to use to resolve favicons. Set to local to do this locally instead"
+          "description": "用于解析网站图标的服务。设为local以在本地解析"
         },
         "defaultIcon": {
-          "title": "Default Icon",
+          "title": "默认图标",
           "type": "string",
-          "description": "An icon to apply to any items which don't yet have the icon set"
+          "description": "应用于尚未设置图标的项目的默认图标"
         },
         "layout": {
           "title": "默认布局",
@@ -307,56 +307,56 @@
           "description": "每个链接项目/图标的大小"
         },
         "colCount": {
-          "title": "Column Count",
+          "title": "列数",
           "type": "number",
           "minimum": 1,
           "maximum": 8,
-          "description": "Number of section columns for homepage. Leave blank for column count to be responsively calculated based on screen size"
+          "description": "主页分类的列数。留空将根据屏幕大小自动计算列数"
         },
         "routingMode": {
-          "title": "Routing Mode",
+          "title": "路由模式",
           "type": "string",
           "enum": [
             "hash",
             "history"
           ],
           "default": "history",
-          "description": "The Vue routing mode to use, history mode will remove the annoying hash from the URL, but requires some extra config on some systems"
+          "description": "使用的Vue路由模式，history模式会从URL中移除烦人的井号，但在某些系统上需要额外配置"
         },
         "workspaceLandingUrl": {
-          "title": "Workspace Landing URL",
+          "title": "工作区登陆URL",
           "type": "string",
-          "description": "The URL of an app, service or website to render when the Workspace view is opened"
+          "description": "打开工作区视图时要渲染的应用、服务或网站的URL"
         },
         "enableMultiTasking": {
-          "title": "Enable Multi-Tasking",
+          "title": "启用多任务",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, will keep apps opened in the workspace open in the background. Useful for switching between sites, but comes at the cost of performance"
+          "description": "如果设为true，将在后台保持工作区中打开的应用。便于在站点间切换，但会影响性能"
         },
         "widgetsAlwaysUseProxy": {
-          "title": "Widgets always use proxy",
+          "title": "小部件始终使用代理",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, the useProxy option for widgets will always be applied without having to specify it for each widget"
+          "description": "如果设为true，小部件的useProxy选项将始终应用，无需为每个小部件指定"
         },
         "webSearch": {
-          "title": "Web Search",
+          "title": "网页搜索",
           "type": "object",
-          "description": "Configure options for web search",
+          "description": "配置网页搜索选项",
           "additionalProperties": false,
           "properties": {
             "disableWebSearch": {
-              "title": "Disable Web Search?",
+              "title": "禁用网页搜索？",
               "type": "boolean",
               "default": "false",
-              "description": "If set to true, web search will be disabled all together"
+              "description": "如果设为true，将完全禁用网页搜索"
             },
             "searchEngine": {
-              "title": "Search Engine",
+              "title": "搜索引擎",
               "type": "string",
               "default": "duckduckgo",
-              "description": "Set your default search engine. Reference provider by key, see docs for all supported search engines, or set to custom to use your own",
+              "description": "设置默认搜索引擎。通过键引用提供商，查看文档了解所有支持的搜索引擎，或设为custom使用自定义",
               "examples": [
                 "duckduckgo",
                 "google",
@@ -375,12 +375,12 @@
               ]
             },
             "customSearchEngine": {
-              "title": "Custom Search Engine",
+              "title": "自定义搜索引擎",
               "type": "string",
-              "description": "Set the URL of a self-hosted or custom search engine, including GET query params. You must also set searchEngine: custom"
+              "description": "设置自托管或自定义搜索引擎的URL，包括GET查询参数。还必须设置searchEngine: custom"
             },
             "openingMethod": {
-              "title": "Search Opening Method",
+              "title": "搜索打开方式",
               "type": "string",
               "enum": [
                 "newtab",
@@ -389,10 +389,10 @@
                 "workspace"
               ],
               "default": "newtab",
-              "description": "Set where you would like search results to open to"
+              "description": "设置希望搜索结果在哪里打开"
             },
             "searchBangs": {
-              "title": "Search Bangs",
+              "title": "搜索快捷键",
               "type": "object",
               "additionalProperties": true,
               "examples": [
@@ -506,9 +506,9 @@
                 "type": "object",
                 "properties": {
                   "user": {
-                    "title": "Username",
+                    "title": "用户名",
                     "type": "string",
-                    "description": "The username for a user"
+                    "description": "用户的用户名"
                   },
                   "hash": {
                     "title": "Hashed Pass",
@@ -597,45 +597,45 @@
               }
             },
             "enableHeaderAuth": {
-              "title": "Enable HeaderAuth?",
+              "title": "启用HeaderAuth？",
               "type": "boolean",
               "default": false,
-              "description": "If set to true, enable Header Authentication. See appConfig.auth.headerAuth"
+              "description": "如果设为true，启用Header认证。查看appConfig.auth.headerAuth"
             },
             "headerAuth": {
               "type": "object",
-              "description": "Configuration for headerAuth",
+              "description": "HeaderAuth配置",
               "additionalProperties": false,
               "required": [
                 "proxyWhitelist"
               ],
               "properties": {
                 "userHeader": {
-                  "title": "User Header",
+                  "title": "用户头",
                   "type": "string",
-                  "description": "Header name which contains username",
+                  "description": "包含用户名的头名称",
                   "default": "REMOTE_USER"
                 },
                 "proxyWhitelist": {
-                  "title": "Upstream Proxy Auth Trust",
+                  "title": "上游代理认证信任",
                   "type": "array",
-                  "description": "Upstream proxy servers to expect authenticated requests from",
+                  "description": "期望接收认证请求的上游代理服务器",
                   "items": {
                     "type": "string",
-                    "description": "IPs of upstream proxies that will be trusted"
+                    "description": "将被信任的上游代理的IP"
                   }
                 }
               }
             },
             "enableKeycloak": {
-              "title": "Enable Keycloak?",
+              "title": "启用Keycloak？",
               "type": "boolean",
               "default": false,
-              "description": "If set to true, and auth.keycloak is also configured, then Keycloak will be used for app auth"
+              "description": "如果设为true，且配置了auth.keycloak，则将使用Keycloak进行应用认证"
             },
             "keycloak": {
               "type": "object",
-              "description": "Configuration for Keycloak server",
+              "description": "Keycloak服务器配置",
               "additionalProperties": false,
               "required": [
                 "serverUrl",
@@ -644,110 +644,110 @@
               ],
               "properties": {
                 "serverUrl": {
-                  "title": "Server URL",
+                  "title": "服务器URL",
                   "type": "string",
-                  "description": "The URL (or URL/ IP + Port) where your keycloak server is running"
+                  "description": "Keycloak服务器运行的URL（或URL/IP+端口）"
                 },
                 "realm": {
-                  "title": "Realm",
+                  "title": "域",
                   "type": "string",
-                  "description": "The name of the realm (must already be created) that you want to use"
+                  "description": "要使用的域名称（必须已创建）"
                 },
                 "clientId": {
-                  "title": "Client ID",
+                  "title": "客户端ID",
                   "type": "string",
-                  "description": "The Client ID of the client you created for use with LaoWang Nav"
+                  "description": "为LaoWang Nav创建的客户端的客户端ID"
                 },
                 "idpHint": {
-                  "title": "IdP hint",
+                  "title": "IdP提示",
                   "type": "string",
-                  "description": "Set to the 'Alias' of an existing Identity Provider in the specified realm to skip the Keycloak login page and redirect straight to the external IdP for authentication"
+                  "description": "设置为指定域中现有身份提供商的'别名'，以跳过Keycloak登录页面并直接重定向到外部IdP进行认证"
                 },
                 "legacySupport": {
-                  "title": "Legacy Support",
+                  "title": "旧版支持",
                   "type": "boolean",
-                  "description": "If using Keycloak 17 or older, then set this to true"
+                  "description": "如果使用Keycloak 17或更早版本，设为true"
                 }
               }
             }
           }
         },
         "showSplashScreen": {
-          "title": "Show splash screen",
+          "title": "显示启动画面",
           "type": "boolean",
           "default": "false",
-          "description": "If set to true, a loading screen will be shown"
+          "description": "如果设为true，将显示加载屏幕"
         },
         "preventWriteToDisk": {
-          "title": "Prevent saving config to disk",
+          "title": "防止保存配置到磁盘",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, users will be prevented from saving config changes to disk through the UI"
+          "description": "如果设为true，将阻止用户通过UI保存配置更改到磁盘"
         },
         "preventLocalSave": {
-          "title": "Prevent saving config to local storage",
+          "title": "防止保存配置到本地存储",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, users will be prevented from applying config changes to local storage"
+          "description": "如果设为true，将阻止用户将配置更改应用到本地存储"
         },
         "disableConfiguration": {
-          "title": "Disable all UI Config",
+          "title": "禁用所有UI配置",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, no users will be able to view or edit the config through the UI"
+          "description": "如果设为true，所有用户都无法通过UI查看或编辑配置"
         },
         "disableConfigurationForNonAdmin": {
-          "title": "Disable all UI Config for non admin users.",
+          "title": "为非管理员用户禁用所有UI配置",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, only admin users will be able to view or edit the config through the UI. disableConfiguration must not be set to true."
+          "description": "如果设为true，只有管理员用户能够通过UI查看或编辑配置。disableConfiguration不得设为true"
         },
         "allowConfigEdit": {
-          "title": "Allow Config Editing",
+          "title": "允许配置编辑",
           "type": "boolean",
           "default": true,
-          "description": "Can user write changes to conf.yml file from the UI. If set to false, preferences are only stored locally"
+          "description": "用户是否可以从UI写入更改到conf.yml文件。如果设为false，首选项仅在本地存储"
         },
         "enableServiceWorker": {
-          "title": "Enable Service Worker",
+          "title": "启用Service Worker",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, then service workers will be used to cache page contents"
+          "description": "如果设为true，将使用service workers缓存页面内容"
         },
         "disableContextMenu": {
-          "title": "Disable Context Menus",
+          "title": "禁用右键菜单",
           "type": "boolean",
           "default": false,
-          "description": "If set to true, custom right-click context menu will be disabled"
+          "description": "如果设为true，将禁用自定义右键菜单"
         },
         "disableUpdateChecks": {
-          "title": "Disable Update Checks",
+          "title": "禁用更新检查",
           "type": "boolean",
           "default": false,
-          "description": "Prevents LaoWang Nav from checking for updates"
+          "description": "阻止LaoWang Nav检查更新"
         },
         "disableSmartSort": {
-          "title": "Disable Smart-Sort",
+          "title": "禁用智能排序",
           "type": "boolean",
           "default": false,
-          "description": "Prevents the app storing local click count, required for the last-used and most-used sort orders"
+          "description": "阻止应用存储本地点击计数，这对于最近使用和最常使用的排序顺序是必需的"
         },
         "enableErrorStatusIndicators": {
-          "title": "Enable Error Status Indicators",
+          "title": "启用错误状态指示",
           "type": "boolean",
           "default": false,
-          "description": "Show visual indicators when a service is down"
+          "description": "当服务宕机时显示可视化指示"
         },
         "enableErrorReporting": {
-          "title": "Enable Error Reporting",
+          "title": "启用错误报告",
           "type": "boolean",
           "default": false,
-          "description": "Enable anonymous crash reports. This helps bugs be found and fixed, in order to make LaoWang Nav more stable. Reporting is off by default, and no data will EVER be collected without your explicit and active concent."
+          "description": "启用匿名崩溃报告。这有助于发现和修复错误，使LaoWang Nav更稳定。报告默认关闭，未经您的明确和主动同意，不会收集任何数据"
         },
         "sentryDsn": {
-          "title": "Custom Sentry DSN",
+          "title": "自定义Sentry DSN",
           "type": "string",
-          "description": "The DSN to your self-hosted Sentry server, if you need to collect bug reports. Only used if enableErrorReporting is enabled"
+          "description": "自托管Sentry服务器的DSN，如果需要收集错误报告。仅在启用enableErrorReporting时使用"
         },
         "syncSourceUrl": {
           "title": "导航同步源",
@@ -765,9 +765,9 @@
     },
     "sections": {
       "type": "array",
-      "description": "Array of sections, containing items",
+      "description": "包含项目的分类数组",
       "items": {
-        "title": "Items",
+        "title": "项目",
         "type": "object",
         "required": [
           "name"
@@ -811,13 +811,13 @@
                 "description": "如果启用，分类需要点击才能展开"
               },
               "cutToHeight": {
-                "title": "Cut to Height",
+                "title": "裁剪到高度",
                 "type": "boolean",
                 "default": false,
                 "description": "By default, sections will fill available space. Set this option to true to match section height with content height"
               },
               "color": {
-                "title": "Color",
+                "title": "颜色",
                 "type": "string",
                 "description": "Hex code, or HTML color for section fill"
               },
@@ -878,7 +878,7 @@
                 "description": "Number of items per row"
               },
               "hideForUsers": {
-                "title": "Hide for Users",
+                "title": "对用户隐藏",
                 "type": "array",
                 "description": "Section will be visible to all users, except for those specified in this list",
                 "items": {
@@ -887,7 +887,7 @@
                 }
               },
               "showForUsers": {
-                "title": "Show for Users",
+                "title": "对用户显示",
                 "type": "array",
                 "description": "Section will be hidden from all users, except for those specified in this list",
                 "items": {
@@ -902,13 +902,13 @@
                 "description": "如果启用，分类仅对登录用户可见，访客无法查看"
               },
               "showForKeycloakUsers": {
-                "title": "Show for select Keycloak groups or roles",
+                "title": "为选定的Keycloak组或角色显示",
                 "type": "object",
                 "description": "Configure the Keycloak groups or roles that will have access to this section",
                 "additionalProperties": false,
                 "properties": {
                   "groups": {
-                    "title": "Show for Groups",
+                    "title": "为组显示",
                     "type": "array",
                     "description": "Section will be hidden from all users except those with one or more of these groups",
                     "items": {
@@ -917,7 +917,7 @@
                     }
                   },
                   "roles": {
-                    "title": "Show for Roles",
+                    "title": "为角色显示",
                     "type": "array",
                     "description": "Section will be hidden from all users except those with one or more of these roles",
                     "items": {
@@ -928,13 +928,13 @@
                 }
               },
               "hideForKeycloakUsers": {
-                "title": "Hide for select Keycloak groups or roles",
+                "title": "为选定的Keycloak组或角色隐藏",
                 "type": "object",
                 "description": "Configure the Keycloak groups or roles that will not have access to this section",
                 "additionalProperties": false,
                 "properties": {
                   "groups": {
-                    "title": "Hide for Groups",
+                    "title": "对组隐藏",
                     "type": "array",
                     "description": "Section will be hidden from users with any of these groups",
                     "items": {
@@ -943,7 +943,7 @@
                     }
                   },
                   "roles": {
-                    "title": "Hide for Roles",
+                    "title": "对角色隐藏",
                     "type": "array",
                     "description": "Section will be hidden from users with any of roles",
                     "items": {
@@ -995,7 +995,7 @@
                   "description": "自定义卡片的可选设置",
                   "properties": {
                     "hideForUsers": {
-                      "title": "Hide for Users",
+                      "title": "对用户隐藏",
                       "type": "array",
                       "description": "Item will be visible to all users, except for those specified in this list",
                       "items": {
@@ -1004,7 +1004,7 @@
                       }
                     },
                     "showForUsers": {
-                      "title": "Show for Users",
+                      "title": "对用户显示",
                       "type": "array",
                       "description": "Item will be hidden from all users, except for those specified in this list",
                       "items": {
@@ -1013,19 +1013,19 @@
                       }
                     },
                     "hideForGuests": {
-                      "title": "Hide for Guests?",
+                      "title": "对访客隐藏？",
                       "type": "boolean",
                       "default": false,
                       "description": "If set to true, item will be visible for logged in users, but not for guests"
                     },
                     "showForKeycloakUsers": {
-                      "title": "Show for select Keycloak groups or roles",
+                      "title": "为选定的Keycloak组或角色显示",
                       "type": "object",
                       "description": "Configure the Keycloak groups or roles that will have access to this item",
                       "additionalProperties": false,
                       "properties": {
                         "groups": {
-                          "title": "Show for Groups",
+                          "title": "为组显示",
                           "type": "array",
                           "description": "Item will be hidden from all users except those with one or more of these groups",
                           "items": {
@@ -1034,7 +1034,7 @@
                           }
                         },
                         "roles": {
-                          "title": "Show for Roles",
+                          "title": "为角色显示",
                           "type": "array",
                           "description": "Item will be hidden from all users except those with one or more of these roles",
                           "items": {
@@ -1045,13 +1045,13 @@
                       }
                     },
                     "hideForKeycloakUsers": {
-                      "title": "Hide for select Keycloak groups or roles",
+                      "title": "为选定的Keycloak组或角色隐藏",
                       "type": "object",
                       "description": "Configure the Keycloak groups or roles that will not have access to this item",
                       "additionalProperties": false,
                       "properties": {
                         "groups": {
-                          "title": "Hide for Groups",
+                          "title": "对组隐藏",
                           "type": "array",
                           "description": "Item will be hidden from users with any of these groups",
                           "items": {
@@ -1060,7 +1060,7 @@
                           }
                         },
                         "roles": {
-                          "title": "Hide for Roles",
+                          "title": "对角色隐藏",
                           "type": "array",
                           "description": "Item will be hidden from users with any of roles",
                           "items": {
@@ -1073,7 +1073,7 @@
                   }
                 },
                 "target": {
-                  "title": "Opening Method",
+                  "title": "打开方式",
                   "type": "string",
                   "enum": [
                     "newtab",
@@ -1085,10 +1085,10 @@
                     "clipboard"
                   ],
                   "default": "newtab",
-                  "description": "Where / how the item is opened when it's clicked"
+                  "description": "点击项目时的打开方式/位置"
                 },
                 "hotkey": {
-                  "title": "Hot Key",
+                  "title": "快捷键",
                   "type": "number",
                   "description": "A numeric shortcut key, between 0 and 9. Useful for quickly launching frequently used applications"
                 },
@@ -1098,7 +1098,7 @@
                   "description": "The rel attribute for the link. For specifying the relationship between the current document and the linked document"
                 },
                 "tags": {
-                  "title": "Tags",
+                  "title": "标签",
                   "type": "array",
                   "description": "A list of tags for improved search. Separate using a comma",
                   "maxItems": 12,

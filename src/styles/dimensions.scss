@@ -18,6 +18,7 @@
   --item-hover-shadow: 1px 2px 4px #373737;
   --item-icon-transform: drop-shadow(2px 4px 6px var(--transparent-50)) saturate(0.95);
   --item-icon-transform-hover: drop-shadow(4px 8px 3px var(--transparent-50)) saturate(2);
+  --icon-invert: 1; /* 1 = white icons (for dark themes), 0 = black icons (for light themes) */
   --item-group-shadow: var(--item-shadow);
   --context-menu-shadow: var(--item-shadow);
   --section-max-height: 3000px;

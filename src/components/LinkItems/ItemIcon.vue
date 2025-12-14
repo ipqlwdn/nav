@@ -274,7 +274,9 @@ export default {
       min-height: 1rem;
       max-height: 2rem;
       object-fit: cover;
-      filter: var(--item-icon-transform);
+      /* Smart icon color adaptation: makes icons visible on any background */
+      /* --icon-invert: 1 for dark themes (white icons), 0 for light themes (black icons) */
+      filter: var(--item-icon-transform) brightness(0) invert(var(--icon-invert, 1));
       border-radius: var(--curve-factor);
       &.small {
         max-width: 1.5rem;

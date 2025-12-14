@@ -216,6 +216,8 @@ html[data-theme='blue-purple'] {
   --context-menu-background: var(--white);
   --context-menu-color: var(--background-darker);
   --context-menu-secondary-color: var(--primary);
+  --icon-invert: 0;
+  /* Light theme: black icons */
 
   .item {
     box-shadow: none;
@@ -486,6 +488,8 @@ html[data-theme='material-original'] {
   --item-hover-shadow: 0 1px 4px #00000029, 0 2px 4px #0000002a;
   --item-icon-transform: drop-shadow(1px 2px 1px var(--transparent-30)) saturate(0.65);
   --item-icon-transform-hover: drop-shadow(1px 3px 2px var(--transparent-30)) saturate(2);
+  --icon-invert: 0;
+  /* Light theme: black icons */
   --settings-container-shadow: 0 1px 3px #0000005e, 0 1px 2px #00000085;
   --welcome-popup-background: var(--background-darker);
   --welcome-popup-text-color: #ffffff;
