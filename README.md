@@ -379,12 +379,10 @@ git clone https://github.com/tony-wang1990/laowang-nav.git
 cd laowang-nav
 
 # 安装依赖
-yarn install
-# 或 npm install
+npm install
 
 # 开发模式
-yarn dev
-# 或 npm run dev
+npm run dev
 ```
 
 访问 `http://localhost:8080`
