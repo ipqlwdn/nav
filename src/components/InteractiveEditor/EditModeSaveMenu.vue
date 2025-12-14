@@ -246,7 +246,7 @@ div.edit-mode-bottom-banner {
   @include tablet-down {
     display: flex;
     flex-direction: column;
-    max-height: 40vh; /* Limit height to 40% of viewport on mobile */
+    max-height: 50vh; /* Increased from 40vh for better visibility */
     overflow-y: auto; /* Enable scrolling */
 
     /* Hide intro text on mobile to save space */
@@ -260,10 +260,40 @@ div.edit-mode-bottom-banner {
     }
 
     .edit-banner-section {
-      max-width: 90%;
-      width: 100%;
+      max-width: 95%;
+      width: 100%!;
       margin: 0.2rem auto;
-      flex-direction: column;
+      padding: 0.2rem !important; /* Reduced padding for mobile */
+      
+      /* Make buttons smaller on mobile */
+      button {
+        margin: 0.15rem !important;
+        max-height: 2.2rem !important; /* Reduced from 3rem */
+        font-size: 0.85rem; /* Slightly smaller text */
+        padding: 0.3rem 0.5rem !important;
+      }
+      
+      /* Optimize subtitle spacing */
+      p.section-sub-title {
+        font-size: 0.9rem;
+        margin: 0.2rem 0 !important;
+      }
+      
+      /* Save buttons: 2 columns on mobile */
+      &.save-buttons-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        p.section-sub-title {
+          grid-column-start: span 2 !important;
+        }
+      }
+      
+      /* Edit config buttons: 3 columns on mobile (keep as is) */
+      &.edit-config-buttons-container {
+        grid-template-columns: repeat(3, 1fr) !important;
+        p.section-sub-title {
+          grid-column-start: span 3 !important;
+        }
+      }
     }
   }
   /* Set colors for buttons */
