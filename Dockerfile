@@ -1,4 +1,4 @@
-FROM node:18.19.1-alpine AS BUILD_IMAGE
+FROM node:18.19.1-alpine AS build_image
 
 # Set the platform to build image for
 ARG TARGETPLATFORM
@@ -25,7 +25,7 @@ RUN npm ci --ignore-scripts --no-audit --no-fund
 COPY . ./
 
 # Build initial app for production
-RUN npm run build -- --mode production --no-clean
+RUN npm run build -- --mode production
 
 # Production stage
 FROM node:20.11.1-alpine3.19
@@ -43,7 +43,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
   && apk add --no-cache tzdata
 
 # Copy built application from build phase
-COPY --from=BUILD_IMAGE /app ./
+COPY --from=build_image /app ./
 
 # Finally, run start command to serve up the built application
 CMD [ "npm", "start" ]
