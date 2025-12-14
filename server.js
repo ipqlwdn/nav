@@ -199,7 +199,27 @@ const app = express()
       res.end(JSON.stringify({ success: false, message: e }));
     }
   })
-  // Middleware to serve any .yml files in USER_DATA_DIR with optional protection
+  // GET endpoint to serve merged configuration (synced data + user overrides)
+  .get('/conf.yml', (req, res) => {
+    try {
+      const { mergeConfigurations } = require('./scripts/utils/merge-config');
+      const mergedConfig = mergeConfigurations();
+      const yaml = require('js-yaml');
+      const yamlContent = yaml.dump(mergedConfig, {
+        lineWidth: -1,
+        quotingType: '"',
+        forceQuotes: false
+      });
+      res.setHeader('Content-Type', 'text/yaml');
+      res.send(yamlContent);
+    } catch (e) {
+      printWarning('Error serving merged config', e);
+      // Fallback to serving original conf.yml if merge fails
+      const userDataDir = process.env.USER_DATA_DIR || 'user-data';
+      res.sendFile(path.join(__dirname, userDataDir, 'conf.yml'));
+    }
+  })
+  // Middleware to serve any other .yml files in USER_DATA_DIR with optional protection
   .get('/*.yml', protectConfig, (req, res) => {
     const ymlFile = req.path.split('/').pop();
     res.sendFile(path.join(__dirname, process.env.USER_DATA_DIR || 'user-data', ymlFile));

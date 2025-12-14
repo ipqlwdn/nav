@@ -33,14 +33,14 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code user-data/conf.yml || echo "changes=true" >> $GITHUB_OUTPUT
+          git diff --exit-code data/synced_sections.json data/menus.json || echo "changes=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changes == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add user-data/conf.yml data/menus.json
+          git add data/synced_sections.json data/menus.json
           git commit -m "🔄 Auto sync: Update navigation data from nav.eooce.com"
           git push
 

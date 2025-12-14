@@ -246,8 +246,20 @@ div.edit-mode-bottom-banner {
   @include tablet-down {
     display: flex;
     flex-direction: column;
-    .edit-banner-section,
+    max-height: 40vh; /* Limit height to 40% of viewport on mobile */
+    overflow-y: auto; /* Enable scrolling */
+    
+    /* Hide intro text on mobile to save space */
     .edit-banner-section.intro-container {
+      display: none;
+    }
+    
+    /* Hide empty space on mobile */
+    .edit-banner-section.empty-space {
+      display: none;
+    }
+    
+    .edit-banner-section {
       max-width: 90%;
       width: 100%;
       margin: 0.2rem auto;

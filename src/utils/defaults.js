@@ -197,6 +197,12 @@ module.exports = {
    * Leave empty to disable cloud backup by default.
    */
   backupEndpoint: '',
+  /* Navigation data sync source URL
+   * This is where the app fetches updated navigation cards from.
+   * Default: nav.eooce.com (佬王大佬's navigation)
+   * Fork users can change this to their preferred navigation source.
+   */
+  syncSourceUrl: 'https://nav.eooce.com',
   /* Available services for fetching favicon icon for user apps */
   faviconApiEndpoints: {
     allesedv: 'https://f1.allesedv.com/128/$URL',

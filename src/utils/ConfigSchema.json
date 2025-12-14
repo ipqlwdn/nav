@@ -748,6 +748,17 @@
           "title": "Custom Sentry DSN",
           "type": "string",
           "description": "The DSN to your self-hosted Sentry server, if you need to collect bug reports. Only used if enableErrorReporting is enabled"
+        },
+        "syncSourceUrl": {
+          "title": "导航同步源",
+          "type": "string",
+          "default": "https://nav.eooce.com",
+          "pattern": "^https?://",
+          "description": "自动同步时获取导航数据的URL。默认追踪佬王大佬的导航 (nav.eooce.com)，Fork用户可以修改为其他导航源",
+          "examples": [
+            "https://nav.eooce.com",
+            "https://your-nav-source.com"
+          ]
         }
       },
       "additionalProperties": false

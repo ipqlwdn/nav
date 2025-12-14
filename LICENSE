@@ -1,6 +1,7 @@
 MIT License
 
 Copyright (c) 2021-2024 Alicia Sykes <https://aliciasykes.com>
+Copyright (c) 2024 Tony Wang <tony-wang1990> (LaoWang Nav)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +20,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+ADDITIONAL DISCLAIMER FOR LAOWANG NAV:
+
+This software is provided for EDUCATIONAL and PERSONAL USE ONLY. While the MIT
+license permits commercial use, users are STRONGLY ADVISED to:
+
+1. Evaluate all risks before commercial deployment
+2. Ensure compliance with all applicable laws and regulations
+3. Verify the legality of syncing third-party website data
+4. Understand that synced data copyrights belong to original sources
+5. Accept full responsibility for any consequences of use
+
+THE AUTHORS AND COPYRIGHT HOLDERS DISCLAIM ALL LIABILITY for any damages,
+losses, or legal issues arising from the use of this software, including but
+not limited to:
+- Data synchronization from third-party sources
+- Copyright or intellectual property disputes
+- Data loss or corruption
+- Service interruptions or failures
+- Any commercial use of the software
+
+BY USING THIS SOFTWARE, YOU ACKNOWLEDGE AND ACCEPT THESE TERMS AND AGREE TO
+HOLD THE AUTHORS HARMLESS FROM ANY CLAIMS OR DAMAGES.

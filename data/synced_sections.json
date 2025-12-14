@@ -814,7 +814,7 @@
         "url": "https://www.qijishow.com/down"
       },
       {
-        "title": "易破��",
+        "title": "易破解",
         "description": "精品windows软件",
         "icon": "https://www.ypojie.com/favicon.ico",
         "url": "https://www.ypojie.com"
@@ -1057,7 +1057,7 @@
       },
       {
         "title": "Remove.photos",
-        "description": "一���抠图",
+        "description": "一键抠图",
         "icon": "https://img.icons8.com/doodle/192/picture.png",
         "url": "https://remove.photos/zh-cn"
       },
@@ -1494,10 +1494,10 @@
         "url": "https://www.spaceship.com"
       },
       {
-        "title": "Dynadot",
-        "description": "经常送免费域名",
-        "icon": "https://www.dynadot.com/favicon.ico",
-        "url": "https://www.dynadot.com"
+        "title": "DNSHE",
+        "description": "永久免费免费域名",
+        "icon": "https://my.dnshe.com/clientarea.php/favicon.ico",
+        "url": "https://my.dnshe.com/clientarea.php"
       },
       {
         "title": "Godaddy",
@@ -1510,6 +1510,24 @@
         "description": "实惠的域名",
         "icon": "https://www.namesilo.com/favicon.ico",
         "url": "https://www.namesilo.com"
+      },
+      {
+        "title": "netlib.re",
+        "description": "永久免费二级域名",
+        "icon": "https://www.netlib.re/favicon.ico",
+        "url": "https://www.netlib.re"
+      },
+      {
+        "title": "Namecheap",
+        "description": "头部域名服务商",
+        "icon": "https://www.namecheap.com/favicon.ico",
+        "url": "https://www.namecheap.com"
+      },
+      {
+        "title": "gv.uy",
+        "description": "永久免费二级域名",
+        "icon": "https://nic.gv.uy/favicon.ico",
+        "url": "https://nic.gv.uy"
       }
     ]
   },

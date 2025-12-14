@@ -3,13 +3,32 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
-const MENUS_URL = 'https://nav.eooce.com/api/menus';
-const CARDS_API_BASE = 'https://nav.eooce.com/api/cards';
-
-// Get project root directory (works whether run from root or scripts/sync/)
+// Get project root directory
 const PROJECT_ROOT = process.cwd();
 const DATA_DIR = path.join(PROJECT_ROOT, 'data');
 const CONF_PATH = path.join(PROJECT_ROOT, 'user-data', 'conf.yml');
+
+// Load sync source URL from config or use defaults
+function getSyncSourceUrl() {
+  try {
+    if (fs.existsSync(CONF_PATH)) {
+      const confContent = fs.readFileSync(CONF_PATH, 'utf8');
+      const conf = yaml.load(confContent);
+      if (conf && conf.appConfig && conf.appConfig.syncSourceUrl) {
+        return conf.appConfig.syncSourceUrl;
+      }
+    }
+  } catch (error) {
+    console.warn('Warning: Could not read syncSourceUrl from config:', error.message);
+  }
+
+  // Fallback to default (hardcoded)
+  return 'https://nav.eooce.com';
+}
+
+const SYNC_BASE_URL = getSyncSourceUrl();
+const MENUS_URL = `${SYNC_BASE_URL}/api/menus`;
+const CARDS_API_BASE = `${SYNC_BASE_URL}/api/cards`;
 
 // Helper function to fetch data from a URL
 function fetchData(url) {
@@ -70,7 +89,7 @@ function mergeItems(localItems, remoteItems) {
 async function sync() {
   try {
     console.log('='.repeat(60));
-    console.log('🔄 开始增量同步 (保留您的自定义分类)');
+    console.log('🔄 开始自动同步远程导航数据');
     console.log('='.repeat(60));
 
     // 1. Fetch Menus from remote
@@ -121,91 +140,21 @@ async function sync() {
 
     console.log(`\n📦 远程共有 ${remoteSections.length} 个分类`);
 
-    // 3. Load existing conf.yml
-    const confPath = CONF_PATH;
-    let conf = {
-      appConfig: { theme: 'colorful', faviconApi: 'google' },
-      pageInfo: { title: 'LaoWang Nav', description: '您的个人导航站' },
-      sections: []
-    };
+    // 3. 保存远程数据到 data/synced_sections.json
+    const syncedDataPath = path.join(DATA_DIR, 'synced_sections.json');
+    fs.writeFileSync(syncedDataPath, JSON.stringify(remoteSections, null, 2));
 
-    if (fs.existsSync(confPath)) {
-      const confContent = fs.readFileSync(confPath, 'utf8');
-      conf = yaml.load(confContent);
-    }
-
-    const localSections = conf.sections || [];
-    console.log(`📂 本地共有 ${localSections.length} 个分类`);
-
-    // 4. Smart Merge Logic
-    console.log('\n🔀 开始智能合并...\n');
-
-    const mergedSections = [];
-    const processedRemoteNames = new Set();
-    let newSectionsCount = 0;
-    let newItemsCount = 0;
-
-    // First: Process all local sections
-    for (const localSection of localSections) {
-      const matchingRemote = remoteSections.find(r => r.name === localSection.name);
-
-      if (matchingRemote) {
-        // Section exists in both: merge items
-        processedRemoteNames.add(matchingRemote.name);
-        const localItems = localSection.items || [];
-        const remoteItems = matchingRemote.items || [];
-
-        console.log(`📁 [合并] ${localSection.name}`);
-        const beforeCount = localItems.length;
-        const mergedItems = mergeItems(localItems, remoteItems);
-        const addedCount = mergedItems.length - beforeCount;
-
-        if (addedCount > 0) {
-          newItemsCount += addedCount;
-        }
-
-        mergedSections.push({
-          ...localSection,
-          items: mergedItems
-        });
-      } else {
-        // Section only exists locally: keep it
-        console.log(`💾 [保留] ${localSection.name} (本地自定义)`);
-        mergedSections.push(localSection);
-      }
-    }
-
-    // Second: Add new remote sections that don't exist locally
-    for (const remoteSection of remoteSections) {
-      if (!processedRemoteNames.has(remoteSection.name)) {
-        const localExists = localSections.some(l => l.name === remoteSection.name);
-        if (!localExists) {
-          console.log(`✨ [新增分类] ${remoteSection.name} (${remoteSection.items.length} 项)`);
-          mergedSections.push(remoteSection);
-          newSectionsCount++;
-          newItemsCount += remoteSection.items.length;
-        }
-      }
-    }
-
-    // 5. Save merged result
-    conf.sections = mergedSections;
-    const newConfContent = yaml.dump(conf, {
-      lineWidth: -1,
-      quotingType: '"',
-      forceQuotes: false
-    });
-    fs.writeFileSync(confPath, newConfContent);
-
-    // 6. Summary
+    // 4. Summary
     console.log('\n' + '='.repeat(60));
     console.log('✅ 同步完成!');
     console.log('='.repeat(60));
     console.log(`📊 统计:`);
-    console.log(`   - 总分类数: ${mergedSections.length}`);
-    console.log(`   - 新增分类: ${newSectionsCount}`);
-    console.log(`   - 新增卡片: ${newItemsCount}`);
-    console.log(`   - 您的自定义分类: 全部保留 ✅`);
+    console.log(`   - 远程分类数: ${remoteSections.length}`);
+    console.log(`   - 保存位置: data/synced_sections.json`);
+    console.log(`   - 您的自定义配置 (user-data/conf.yml) 不受影响 ✅`);
+    console.log(`\n💡 提示: 应用启动时会自动合并远程数据和您的自定义配置`);
+    console.log(`   - 您可以在 user-data/conf.yml 中覆盖任何远程卡片的URL或其他属性`);
+    console.log(`   - 您的自定义分类和覆盖不会被同步覆盖`);
 
   } catch (error) {
     console.error('同步失败:', error);
