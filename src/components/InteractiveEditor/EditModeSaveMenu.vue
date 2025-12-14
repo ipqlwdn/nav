@@ -261,7 +261,7 @@ div.edit-mode-bottom-banner {
 
     .edit-banner-section {
       max-width: 95%;
-      width: 100%!;
+      width: 100% !important;
       margin: 0.2rem auto;
       padding: 0.2rem !important; /* Reduced padding for mobile */
 
