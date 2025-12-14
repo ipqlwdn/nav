@@ -25,7 +25,7 @@ RUN npm ci --ignore-scripts --no-audit --no-fund
 COPY . ./
 
 # Build initial app for production
-RUN yarn build --mode production --no-clean
+RUN npm run build -- --mode production --no-clean
 
 # Production stage
 FROM node:20.11.1-alpine3.19
@@ -46,11 +46,11 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 COPY --from=BUILD_IMAGE /app ./
 
 # Finally, run start command to serve up the built application
-CMD [ "yarn", "start" ]
+CMD [ "npm", "start" ]
 
 # Expose the port
 EXPOSE ${PORT}
 
 # Run simple healthchecks every 5 mins, to check that everythings still great
 # Extended start-period to 120s to allow proper initialization (update checks, config validation, etc.)
-HEALTHCHECK --interval=5m --timeout=10s --start-period=120s CMD yarn health-check
+HEALTHCHECK --interval=5m --timeout=10s --start-period=120s CMD npm run health-check
