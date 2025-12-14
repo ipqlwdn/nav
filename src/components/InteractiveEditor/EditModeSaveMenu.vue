@@ -264,7 +264,7 @@ div.edit-mode-bottom-banner {
       width: 100%!;
       margin: 0.2rem auto;
       padding: 0.2rem !important; /* Reduced padding for mobile */
-      
+
       /* Make buttons smaller on mobile */
       button {
         margin: 0.15rem !important;
@@ -272,13 +272,13 @@ div.edit-mode-bottom-banner {
         font-size: 0.85rem; /* Slightly smaller text */
         padding: 0.3rem 0.5rem !important;
       }
-      
+
       /* Optimize subtitle spacing */
       p.section-sub-title {
         font-size: 0.9rem;
         margin: 0.2rem 0 !important;
       }
-      
+
       /* Save buttons: 2 columns on mobile */
       &.save-buttons-container {
         grid-template-columns: repeat(2, 1fr) !important;
@@ -286,7 +286,7 @@ div.edit-mode-bottom-banner {
           grid-column-start: span 2 !important;
         }
       }
-      
+
       /* Edit config buttons: 3 columns on mobile (keep as is) */
       &.edit-config-buttons-container {
         grid-template-columns: repeat(3, 1fr) !important;

@@ -275,7 +275,8 @@ export default {
       max-height: 2rem;
       object-fit: cover;
       /* Smart icon enhancement: preserves colors while improving visibility */
-      /* saturate enhances color vibrancy, brightness makes icons more visible on dark backgrounds */
+      /* saturate enhances color vibrancy, brightness makes icons more visible on */
+      /* dark backgrounds */
       filter: var(--item-icon-transform) saturate(1.2) brightness(var(--icon-brightness, 1.1));
       border-radius: var(--curve-factor);
       &.small {

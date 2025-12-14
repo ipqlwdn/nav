@@ -21,6 +21,7 @@ const yaml = require('js-yaml');
 const express = require('express');
 const basicAuth = require('express-basic-auth');
 const history = require('connect-history-api-fallback');
+const { mergeConfigurations } = require('./scripts/utils/merge-config');
 
 // Disabled to speed up container startup - update checks can be slow in production
 // require('./services/update-checker'); // Checks for updates
@@ -202,9 +203,7 @@ const app = express()
   // GET endpoint to serve merged configuration (synced data + user overrides)
   .get('/conf.yml', (req, res) => {
     try {
-      const { mergeConfigurations } = require('./scripts/utils/merge-config');
       const mergedConfig = mergeConfigurations();
-      const yaml = require('js-yaml');
       const yamlContent = yaml.dump(mergedConfig, {
         lineWidth: -1,
         quotingType: '"',
