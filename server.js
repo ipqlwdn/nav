@@ -208,7 +208,7 @@ const app = express()
       const yamlContent = yaml.dump(mergedConfig, {
         lineWidth: -1,
         quotingType: '"',
-        forceQuotes: false
+        forceQuotes: false,
       });
       res.setHeader('Content-Type', 'text/yaml');
       res.send(yamlContent);
