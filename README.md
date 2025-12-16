@@ -35,27 +35,27 @@
 
 ---
 
-### 🖥️ 桌面端主页 - 多栏布局
+### 🖥️ 桌面端主页 - 单栏布局
 
 [![Desktop Homepage](docs/screenshots/demo-desktop.png)](https://demo-nav.zeabur.app/)
 
-*👆 点击图片体验在线 Demo | 支持多栏分类展示，一目了然查看所有导航卡片*
+*👆 点击图片体验在线 Demo | 集成搜索引擎切换、实时天气显示、主题布局控制*
 
 ---
 
-### 📱 响应式分类列表
+### 📊 多栏分类布局
 
 ![Category Layout](docs/screenshots/demo-categories.png)
 
-*智能响应式布局，自动适配不同屏幕尺寸*
+*支持多栏并列展示，Home、AI-stuff、Cloud、Container 分类一目了然*
 
 ---
 
-### 🎨 内置多彩主题切换
+### ⚙️ 丰富的设置选项
 
-![Theme Panel](docs/screenshots/demo-themes.png)
+![Settings Panel](docs/screenshots/demo-themes.png)
 
-*20+ 精美内置主题，支持自定义 CSS 样式*
+*下载配置、修改设置、更改语言、自定义CSS、云端同步等一应俱全*
 
 ---
 
@@ -63,7 +63,7 @@
 
 ![Edit Mode](docs/screenshots/demo-editor.png)
 
-*无需代码，可视化拖拽编辑，实时预览保存*
+*一键进入编辑模式，支持修改页面信息、应用设置、页面布局，实时保存*
 
 </div>
 
