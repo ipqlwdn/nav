@@ -1,0 +1,13 @@
+sections:
+  - name: Search
+    items:
+      - title: Google
+        url: https://google.hk
+        icon: google.png
+      - title: Bing
+        url: https://bing.com
+        icon: bing.png
+  - name: My Custom
+    items:
+      - title: My Site
+        url: https://mysite.com

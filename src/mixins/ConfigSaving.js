@@ -15,7 +15,7 @@ export default {
     };
   },
   methods: {
-    writeConfigToDisk(config) {
+    async writeConfigToDisk(config) {
       if (config.appConfig.preventWriteToDisk) {
         ErrorHandler('Unable to write changed to disk, as this functionality is disabled');
         return;
@@ -32,12 +32,28 @@ export default {
           return;
         }
       }
-      // 2. Convert JSON into YAML
+
+      // 2. Filter out synced data (only save user modifications and custom content)
+      let configToSave = jsonConfig;
+      if (!isSubPag) {
+        try {
+          // Load synced sections and filter
+          const { filterSyncedData, getSyncedSections } = await import('@/utils/ConfigFilter');
+          const syncedSections = await getSyncedSections();
+          configToSave = filterSyncedData(jsonConfig, syncedSections);
+          console.log('Filtered config to save only user modifications');
+        } catch (error) {
+          console.warn('Could not filter synced data, saving full config:', error);
+          // If filtering fails, fall back to saving the full config
+        }
+      }
+
+      // 3. Convert JSON into YAML
       const yamlOptions = {};
-      const strjsonConfig = JSON.stringify(jsonConfig);
+      const strjsonConfig = JSON.stringify(configToSave);
       const jsonObj = JSON.parse(strjsonConfig);
       const yaml = jsYaml.dump(jsonObj, yamlOptions);
-      // 3. Prepare the request
+      // 4. Prepare the request
       const baseUrl = process.env.VUE_APP_DOMAIN || window.location.origin;
       const endpoint = `${baseUrl}${serviceEndpoints.save}`;
       const headers = { 'Content-Type': 'text/plain' };
@@ -45,7 +61,7 @@ export default {
         ? (this.$store.state.currentConfigInfo.confPath || '') : '';
       const body = { config: yaml, timestamp: new Date(), filename };
       const request = axios.post(endpoint, body, headers);
-      // 4. Make the request, and handle response
+      // 5. Make the request, and handle response
       this.progress.start();
       request.then((response) => {
         this.saveSuccess = response.data.success || false;
