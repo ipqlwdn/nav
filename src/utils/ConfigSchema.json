@@ -748,17 +748,6 @@
           "title": "自定义Sentry DSN",
           "type": "string",
           "description": "自托管Sentry服务器的DSN，如果需要收集错误报告。仅在启用enableErrorReporting时使用"
-        },
-        "syncSourceUrl": {
-          "title": "导航同步源",
-          "type": "string",
-          "default": "https://nav.eooce.com",
-          "pattern": "^https?://",
-          "description": "自动同步时获取导航数据的URL。默认追踪佬王大佬的导航 (nav.eooce.com)，Fork用户可以修改为其他导航源",
-          "examples": [
-            "https://nav.eooce.com",
-            "https://your-nav-source.com"
-          ]
         }
       },
       "additionalProperties": false

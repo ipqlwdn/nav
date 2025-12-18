@@ -33,24 +33,11 @@ export default {
         }
       }
 
-      // 2. Filter out synced data (only save user modifications and custom content)
-      let configToSave = jsonConfig;
-      if (!isSubPag) {
-        try {
-          // Load synced sections and filter
-          const { filterSyncedData, getSyncedSections } = await import('@/utils/ConfigFilter');
-          const syncedSections = await getSyncedSections();
-          configToSave = filterSyncedData(jsonConfig, syncedSections);
-          console.log('Filtered config to save only user modifications');
-        } catch (error) {
-          console.warn('Could not filter synced data, saving full config:', error);
-          // If filtering fails, fall back to saving the full config
-        }
-      }
+
 
       // 3. Convert JSON into YAML
       const yamlOptions = {};
-      const strjsonConfig = JSON.stringify(configToSave);
+      const strjsonConfig = JSON.stringify(jsonConfig);
       const jsonObj = JSON.parse(strjsonConfig);
       const yaml = jsYaml.dump(jsonObj, yamlOptions);
       // 4. Prepare the request

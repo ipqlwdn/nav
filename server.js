@@ -21,7 +21,6 @@ const yaml = require('js-yaml');
 const express = require('express');
 const basicAuth = require('express-basic-auth');
 const history = require('connect-history-api-fallback');
-const { mergeConfigurations } = require('./scripts/utils/merge-config');
 
 // Disabled to speed up container startup - update checks can be slow in production
 // require('./services/update-checker'); // Checks for updates
@@ -200,24 +199,7 @@ const app = express()
       res.end(JSON.stringify({ success: false, message: e }));
     }
   })
-  // GET endpoint to serve merged configuration (synced data + user overrides)
-  .get('/conf.yml', (req, res) => {
-    try {
-      const mergedConfig = mergeConfigurations();
-      const yamlContent = yaml.dump(mergedConfig, {
-        lineWidth: -1,
-        quotingType: '"',
-        forceQuotes: false,
-      });
-      res.setHeader('Content-Type', 'text/yaml');
-      res.send(yamlContent);
-    } catch (e) {
-      printWarning('Error serving merged config', e);
-      // Fallback to serving original conf.yml if merge fails
-      const userDataDir = process.env.USER_DATA_DIR || 'user-data';
-      res.sendFile(path.join(__dirname, userDataDir, 'conf.yml'));
-    }
-  })
+
   // Middleware to serve any other .yml files in USER_DATA_DIR with optional protection
   .get('/*.yml', protectConfig, (req, res) => {
     const ymlFile = req.path.split('/').pop();

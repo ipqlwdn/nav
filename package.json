@@ -19,8 +19,7 @@
     "build-and-start": "cross-env NODE_OPTIONS=--openssl-legacy-provider npm-run-all --parallel build start",
     "validate-config": "node services/config-validator",
     "health-check": "node services/healthcheck",
-    "dependency-audit": "npm audit --production",
-    "sync": "node scripts/sync/sync_nav.js"
+    "dependency-audit": "npm audit --production"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
