@@ -4,7 +4,7 @@ appConfig:
   enableErrorStatusIndicators: false
   defaultIcon: favicon
 pageInfo:
-  title: LaoWang Nav
+  title:
   description: 您的个人导航站
 sections:
   - name: Home
