@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 <div class="weather">
   <!-- Icon + Temperature -->
   <div class="intro">
@@ -129,7 +129,7 @@ export default {
         if (data.success && data.info) {
           this.temp = `${data.info.high.replace('C', '')}C`; // 保持统一格式
           this.description = data.info.type; // 中文描述
-          this.location = data.city || '本地';
+          this.location = this.sanitizeLocation(data.city || '本地');
           this.icon = this.mapIcon(data.info.type);
           this.weatherDetails = [[
             { label: '低温', value: data.info.low },
@@ -151,7 +151,7 @@ export default {
           const w = data.result;
           this.temp = `${w.current_temperature}C`;
           this.description = w.weather; // 中文
-          this.location = w.city_name;
+          this.location = this.sanitizeLocation(w.city_name);
           this.icon = this.mapIcon(w.weather);
           this.weatherDetails = [[
             { label: '最高', value: `${w.high_temperature}C` },
@@ -222,7 +222,7 @@ export default {
         // 尝试简单的中文映射（Wttr返回是英文）
         this.temp = `${current.temp_C}C`;
         this.description = current.weatherDesc[0].value;
-        this.location = area.areaName?.[0]?.value || 'Unknown';
+        this.location = this.sanitizeLocation(area.areaName?.[0]?.value || 'Unknown');
         this.icon = '01d'; 
       } catch (e) {
         this.description = 'Service N/A';
@@ -274,7 +274,7 @@ export default {
       this.icon = data.weather[0].icon;
       this.description = data.weather[0].description;
       this.temp = Math.round(data.main.temp) + this.tempDisplayUnits;
-      this.location = data.name;
+      this.location = this.sanitizeLocation(data.name);
       if (!this.options.hideDetails) {
         this.makeOWMDetails(data);
       }
