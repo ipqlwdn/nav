@@ -1,5 +1,7 @@
 ﻿# LaoWang Nav
 
+[English](README_EN.md) | [简体中文](README.md)
+
 **一个漂亮、易用、功能强大的自托管导航页**
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/tony-wang1990/laowang-nav/blob/master/LICENSE)
