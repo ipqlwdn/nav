@@ -1,12 +1,12 @@
-<template>
+﻿<template>
 <div class="weather">
   <!-- Icon + Temperature -->
   <div class="intro">
     <div class="main-info">
       <p class="temp">{{ temp }}</p>
-      <i :class="`owi owi-${icon}`"></i>
+      <i :class="owi owi-"></i>
     </div>
-    <p class="location" v-if="location">📍 {{ location }}</p>
+    <p class="location" v-if="location"> {{ location }}</p>
   </div>
   <!-- Weather description -->
   <p class="description">{{ description }}</p>
@@ -20,7 +20,7 @@
   </div>
   <!-- Show/ hide toggle button -->
   <p class="more-details-btn" @click="toggleDetails" v-if="weatherDetails.length > 0">
-    {{ showDetails ? $t('widgets.general.show-less') : $t('widgets.general.show-more') }}
+    {{ showDetails ? ('widgets.general.show-less') : ('widgets.general.show-more') }}
   </p>
 </div>
 </template>
@@ -47,71 +47,160 @@ export default {
   },
   computed: {
     units() { return this.options.units || 'metric'; },
-    tempDisplayUnits() { return this.units === 'imperial' ? '°F' : '°C'; },
+    tempDisplayUnits() { return this.units === 'imperial' ? 'F' : 'C'; },
   },
   methods: {
-    /* Main Entry: Try sources in order */
+    /* 主要入口：智能天气获取 */
     async fetchSmartWeather() {
       this.loading = true;
-      // 1. Try VVHan (Best for China)
-      if (await this.fetchVVHan()) return;
+      let geo = null;
 
-      // 2. Try Oioweb (Backup for China)
-      if (await this.fetchOioweb()) return;
+      // 1. 获取位置信息 (IP 定位)
+      try {
+        geo = await this.fetchLocation();
+      } catch (e) {
+        console.warn('Location detection failed, defaulting to global mode');
+      }
 
-      // 3. Try OpenWeatherMap (If API Key provided)
-      if (this.options.apiKey && await this.fetchOWM()) return;
+      const isCN = geo && geo.country === 'CN';
 
-      // 4. Fallback to Wttr.in
+      // 2. 根据地区选择策略
+      if (isCN) {
+        // --- 国内策略 (优先中文源) ---
+        // Plan A: VVHan (韩小韩) - 速度快，原生中文
+        if (await this.fetchVVHan()) {
+          this.loading = false;
+          return;
+        }
+        // Plan B: Oioweb - 备用中文源
+        if (await this.fetchOioweb()) {
+          this.loading = false;
+          return;
+        }
+        // Plan C: Open-Meteo (使用 IP 经纬度)
+        if (geo && geo.lat && geo.lon && await this.fetchOpenMeteo(geo.lat, geo.lon, true)) {
+          this.loading = false;
+          return;
+        }
+      } else {
+        // --- 国际策略 ---
+        // Plan A: Open-Meteo (最准，全球覆盖)
+        if (geo && geo.lat && geo.lon && await this.fetchOpenMeteo(geo.lat, geo.lon, false)) {
+          this.loading = false;
+          return;
+        }
+        // Plan B: OpenWeatherMap (如果有 Key)
+        if (this.options.apiKey && await this.fetchOWM()) {
+          this.loading = false;
+          return;
+        }
+      }
+
+      // 3. 最后的兜底 (Wttr.in)
       await this.fetchWttr();
       this.loading = false;
     },
 
-    /* --- Source 1: VVHan --- */
+    /* 获取位置信息 */
+    async fetchLocation() {
+      try {
+        // 尝试使用 ipapi.co (HTTPS, JSON)
+        const res = await fetch('https://ipapi.co/json/');
+        if (res.ok) {
+          const data = await res.json();
+          return {
+            country: data.country_code, // e.g., 'CN', 'US'
+            city: data.city,
+            lat: data.latitude,
+            lon: data.longitude
+          };
+        }
+      } catch (e) {
+        console.warn('IPAPI failed, trying backup...');
+      }
+      return null;
+    },
+
+    /* --- 源 1: VVHan (适合国内) --- */
     async fetchVVHan() {
       try {
         const res = await fetch('https://api.vvhan.com/api/weather');
         const data = await res.json();
         if (data.success && data.info) {
-          this.temp = data.info.high.replace('°C', '');
-          this.description = data.info.type;
-          this.location = data.city || 'Local';
+          this.temp = data.info.high.replace('C', '') + 'C'; // 保持统一格式
+          this.description = data.info.type; // 中文描述
+          this.location = data.city || '本地';
           this.icon = this.mapIcon(data.info.type);
-          this.makeSimpleDetails(data.info);
+          this.weatherDetails = [[
+            { label: '低温', value: data.info.low },
+            { label: '高温', value: data.info.high },
+            { label: '风向', value: data.info.fengxiang },
+          ]];
           return true;
         }
-      } catch (e) { /* ignore */ }
+      } catch (e) { console.error('VVHan Error:', e); }
       return false;
     },
 
-    /* --- Source 2: Oioweb --- */
+    /* --- 源 2: Oioweb (适合国内) --- */
     async fetchOioweb() {
       try {
         const res = await fetch('https://api.oioweb.cn/api/weather/weather');
         const data = await res.json();
         if (data.code === 200 && data.result) {
           const w = data.result;
-          this.temp = w.current_temperature;
-          this.description = w.weather;
+          this.temp = w.current_temperature + 'C';
+          this.description = w.weather; // 中文
           this.location = w.city_name;
           this.icon = this.mapIcon(w.weather);
-          // Oioweb provides richer details, we can use them if needed
+          this.weatherDetails = [[
+            { label: '最高', value: w.high_temperature + 'C' },
+            { label: '最低', value: w.low_temperature + 'C' },
+            { label: '风向', value: w.wind_direction },
+          ]];
           return true;
         }
-      } catch (e) { /* ignore */ }
+      } catch (e) { console.error('Oioweb Error:', e); }
       return false;
     },
 
-    /* --- Source 3: OpenWeatherMap (Legacy) --- */
+    /* --- 源 3: Open-Meteo (全球推荐) --- */
+    async fetchOpenMeteo(lat, lon, isCN) {
+      try {
+        const url = https://api.open-meteo.com/v1/forecast?latitude= + lat + &longitude= + lon + &current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto;
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        if (data.current) {
+          this.temp = Math.round(data.current.temperature_2m) + 'C';
+          const code = data.current.weather_code;
+          this.description = this.mapWmoCode(code, isCN); 
+          this.icon = this.mapWmoIcon(code);
+          // Open-Meteo 不返回城市名，需要用之前的 geo 数据，这里均显示 Local 或结合 IP 数据
+          // 如果是 CN 模式但走到这里说明国内接口挂了，用 lat/lon 反查太麻烦，直接显示 Generic
+          this.location = isCN ? '本地气象' : 'Local Weather'; 
+
+          this.weatherDetails = [[
+             { label: isCN ? '湿度' : 'Humidity', value: data.current.relative_humidity_2m + '%' },
+             { label: isCN ? '风速' : 'Wind', value: data.current.wind_speed_10m + ' km/h' },
+             { label: isCN ? '最高' : 'Max', value: Math.round(data.daily.temperature_2m_max[0]) + 'C' },
+          ]];
+          return true;
+        }
+      } catch (e) { console.error('OpenMeteo Error:', e); }
+      return false;
+    },
+
+    /* --- 源 4: OpenWeatherMap (Legacy) --- */
     async fetchOWM() {
+        // ... (保持原有逻辑作为备用) ...
       try {
         const apiKey = this.parseAsEnvVar(this.options.apiKey);
-        const { city, lat, lon } = this.options;
-        const params = (lat && lon)
-          ? `lat=${lat}&lon=${lon}&appid=${apiKey}&units=${this.units}`
-          : `q=${city || 'Beijing'}&appid=${apiKey}&units=${this.units}`;
-        const url = `${widgetApiEndpoints.weather}?${params}`;
-
+        const { city } = this.options;
+        if (!apiKey) return false;
+        
+        const params = q= + (city || 'Beijing') + &appid= + apiKey + &units= + this.units;
+        const url = widgetApiEndpoints.weather + ? + params;
         const res = await fetch(url);
         const data = await res.json();
         if (data.cod === 200) {
@@ -122,29 +211,53 @@ export default {
       return false;
     },
 
-    /* --- Source 4: Wttr.in (Fallback) --- */
+    /* --- 源 5: Wttr.in (兜底) --- */
     async fetchWttr() {
       try {
-        const res = await fetch('https://wttr.in/?format=j1'); // JSON format
+        const res = await fetch('https://wttr.in/?format=j1');
         const data = await res.json();
         const current = data.current_condition[0];
         const area = data.nearest_area[0];
-
-        this.temp = current.temp_C; // Wttr defaults usually metric
+        
+        // 尝试简单的中文映射（Wttr返回是英文）
+        this.temp = current.temp_C + 'C';
         this.description = current.weatherDesc[0].value;
-        // 优先使用 region > areaName，过滤不合理的地名
-        const rawLocation = area.region?.[0]?.value
-          || area.areaName?.[0]?.value
-          || '';
-        this.location = this.sanitizeLocation(rawLocation);
-        this.icon = '01d'; // Hard to map seamlessly, use default
+        this.location = area.areaName?.[0]?.value || 'Unknown';
+        this.icon = '01d'; 
       } catch (e) {
-        this.description = 'Offline';
-        this.location = '';
+        this.description = 'Service N/A';
+        this.location = 'Offline';
       }
     },
 
-    /* Helper: Map conditions to OWI icons */
+    /* 辅助：Open-Meteo WMO Code 映射 */
+    mapWmoCode(code, isCN) {
+      const map = {
+        0: ['Clear sky', '晴'],
+        1: ['Mainly clear', '多云'], 2: ['Partly cloudy', '多云'], 3: ['Overcast', '阴'],
+        45: ['Fog', '雾'], 48: ['Depositing rime fog', '雾凇'],
+        51: ['Light drizzle', '小毛毛雨'], 53: ['Drizzle', '毛毛雨'], 55: ['Heavy drizzle', '大毛毛雨'],
+        61: ['Light rain', '小雨'], 63: ['Rain', '中雨'], 65: ['Heavy rain', '大雨'],
+        71: ['Light snow', '小雪'], 73: ['Snow', '中雪'], 75: ['Heavy snow', '大雪'],
+        95: ['Thunderstorm', '雷雨']
+      };
+      
+      const entry = map[code] || ['Unknown', '未知'];
+      return isCN ? entry[1] : entry[0];
+    },
+
+    mapWmoIcon(code) {
+        // 简单映射到 OWI 图标
+        if (code === 0) return '01d';
+        if (code >= 1 && code <= 3) return '02d';
+        if (code >= 45 && code <= 48) return '50d';
+        if (code >= 51 && code <= 67) return '09d';
+        if (code >= 71 && code <= 77) return '13d';
+        if (code >= 95) return '11d';
+        return '01d';
+    },
+
+    /* 通用文字转图标映射 (用于中文 API) */
     mapIcon(condition) {
       if (!condition) return '01d';
       const c = condition.toString();
@@ -153,19 +266,10 @@ export default {
       if (c.includes('雨')) return '09d';
       if (c.includes('雪')) return '13d';
       if (c.includes('雷')) return '11d';
-      if (c.includes('雾')) return '50d';
+      if (c.includes('雾') || c.includes('霾')) return '50d';
       return '01d';
     },
 
-    makeSimpleDetails(info) {
-      this.weatherDetails = [[
-        { label: 'Low', value: info.low },
-        { label: 'High', value: info.high },
-        { label: 'Wind', value: info.fengxiang },
-      ]];
-    },
-
-    /* Legacy OWM Processor */
     processOWMData(data) {
       this.icon = data.weather[0].icon;
       this.description = data.weather[0].description;
@@ -176,7 +280,6 @@ export default {
       }
     },
 
-    /* Legacy OWM Details */
     makeOWMDetails(data) {
       this.weatherDetails = [
         [
@@ -185,8 +288,8 @@ export default {
           { label: 'Feels', value: Math.round(data.main.feels_like) + this.tempDisplayUnits },
         ],
         [
-          { label: 'Hum', value: `${data.main.humidity}%` },
-          { label: 'Wind', value: `${data.wind.speed}m/s` },
+          { label: 'Hum', value: ${data.main.humidity}% },
+          { label: 'Wind', value: ${data.wind.speed}m/s },
         ],
       ];
     },

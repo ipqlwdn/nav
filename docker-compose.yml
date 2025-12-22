@@ -1,5 +1,5 @@
----
-# Welcome to LaoWang Nav! To get started, run `docker compose up -d`
+﻿---
+# Welcome to LaoWang Nav! To get started, run docker compose up -d
 # You can configure your container here, by modifying this file
 version: "3.8"
 services:
@@ -12,13 +12,12 @@ services:
     # To build from source, replace the image line with 'build: .'
     # build: .
 
-    # You can also use an image with a different tag, e.g:
-    # image: ghcr.io/tony-wang1990/laowang-nav:3.1.1
-
     # Pass in your config file below, by specifying the path on your host machine
-    # volumes:
-    # - /path/to/my-config.yml:/app/user-data/conf.yml
-    # - /path/to/item-icons:/app/user-data/item-icons/
+    volumes:
+    # Mount config file (Preserves your settings updates)
+    - ./user-data:/app/user-data
+    # Mount custom icons (Preserves your uploaded icons)
+    - ./public/item-icons:/app/public/item-icons
 
     # Set port that web service will be served on. Keep container port as 8080
     ports:
@@ -27,7 +26,7 @@ services:
     # Set any environmental variables
     environment:
       - NODE_ENV=production
-    # Specify your user ID and group ID. You can find this by running `id -u` and `id -g`
+    # Specify your user ID and group ID. You can find this by running id -u and id -g
     #  - UID=1000
     #  - GID=1000
 
@@ -42,3 +41,11 @@ services:
       retries: 3
       start_period: 2m
 
+  # Watchtower: Automatically updates laowang-nav when a new image is pushed
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 laowang-nav # Check every 300s (5 mins) for 'laowang-nav' updates

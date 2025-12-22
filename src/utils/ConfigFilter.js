@@ -1,6 +1,6 @@
-/**
+﻿/**
  * 过滤配置中与同步数据相同的条目
- * 只保留用户的真实修改和自定义内容
+ * (Deployment Sync Mode: Remote fetching disabled)
  */
 
 /**
@@ -91,13 +91,10 @@ export function filterSyncedData(config, syncedSections) {
  */
 export async function getSyncedSections() {
     try {
-        const baseUrl = process.env.VUE_APP_DOMAIN || window.location.origin;
-        const response = await fetch(`${baseUrl}/data/synced_sections.json`);
-        if (!response.ok) {
-            console.warn('Could not load synced sections, filter will be skipped');
-            return [];
-        }
-        return await response.json();
+        // Disabled remote sync based on user request (Deployment Sync Only)
+        // const baseUrl = process.env.VUE_APP_DOMAIN || window.location.origin;
+        // const response = await fetch(${baseUrl}/data/synced_sections.json);
+        return []; 
     } catch (error) {
         console.warn('Error loading synced sections:', error);
         return [];
