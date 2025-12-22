@@ -167,7 +167,7 @@ export default {
     /* --- 源 3: Open-Meteo (全球推荐) --- */
     async fetchOpenMeteo(lat, lon, isCN) {
       try {
-        const url = https://api.open-meteo.com/v1/forecast?latitude= + lat + &longitude= + lon + &current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto;
+        const url = `?${params}`;
         const res = await fetch(url);
         const data = await res.json();
         
@@ -199,8 +199,8 @@ export default {
         const { city } = this.options;
         if (!apiKey) return false;
         
-        const params = q= + (city || 'Beijing') + &appid= + apiKey + &units= + this.units;
-        const url = widgetApiEndpoints.weather + ? + params;
+        const params = `q=${city || 'Beijing'}&appid=${apiKey}&units=${this.units}`;
+        const url = `?${params}`;
         const res = await fetch(url);
         const data = await res.json();
         if (data.cod === 200) {
@@ -288,8 +288,8 @@ export default {
           { label: 'Feels', value: Math.round(data.main.feels_like) + this.tempDisplayUnits },
         ],
         [
-          { label: 'Hum', value: ${data.main.humidity}% },
-          { label: 'Wind', value: ${data.wind.speed}m/s },
+          { label: 'Hum', value: ` ${data.main.humidity}%` },
+          { label: 'Wind', value: ` ${data.wind.speed}m/s` },
         ],
       ];
     },
