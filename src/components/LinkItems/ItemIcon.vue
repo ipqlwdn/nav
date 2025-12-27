@@ -87,10 +87,14 @@ export default {
     },
     /* Return the path to icon asset, depending on icon type */
     getIconPath(img, url) {
-      // If we are in a fallback stage, handle custom logic for favicons
-      if (this.fallbackStage > 0 && this.determineImageType(img) === 'favicon') {
-        if (this.fallbackStage === 1) return this.getFavicon(url, 'google');
-        if (this.fallbackStage === 2) return this.getGenerativeIcon(url);
+      // Universal fallback: If we reached stage 2, EVERYTHING falls back to local SVG
+      if (this.fallbackStage === 2) {
+        return this.getGenerativeIcon(url || this.label);
+      }
+
+      // Stage 1 fallback: Specifically for favicon types, try Google
+      if (this.fallbackStage === 1 && this.determineImageType(img) === 'favicon') {
+        return this.getFavicon(url, 'google');
       }
 
       switch (this.determineImageType(img)) {
