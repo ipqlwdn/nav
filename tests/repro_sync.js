@@ -1,4 +1,4 @@
-
+/* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
@@ -22,13 +22,13 @@ process.cwd = () => TEST_DIR;
 // 1. Initial State
 console.log('--- Step 1: Initial Sync ---');
 const initialSyncData = [
-    {
-        name: 'Search',
-        items: [
-            { title: 'Google', url: 'https://google.com', icon: 'google.png' },
-            { title: 'Bing', url: 'https://bing.com', icon: 'bing.png' }
-        ]
-    }
+  {
+    name: 'Search',
+    items: [
+      { title: 'Google', url: 'https://google.com', icon: 'google.png' },
+      { title: 'Bing', url: 'https://bing.com', icon: 'bing.png' },
+    ],
+  },
 ];
 fs.writeFileSync(path.join(DATA_DIR, 'synced_sections.json'), JSON.stringify(initialSyncData));
 
@@ -42,11 +42,11 @@ console.log('Merged (Fresh):', JSON.stringify(merged.sections.map(s => ({ name: 
 // 2. User User Modifies "Google" and Adds "My Cat"
 console.log('\n--- Step 2: User Saves Config ---');
 // User modifies Google URL in UI. The UI mocks this by taking merged data and modifying it.
-let uiConfig = JSON.parse(JSON.stringify(merged));
+const uiConfig = JSON.parse(JSON.stringify(merged));
 uiConfig.sections[0].items[0].url = 'https://google.hk'; // Modified
 uiConfig.sections.push({
-    name: 'My Custom',
-    items: [{ title: 'My Site', url: 'https://mysite.com' }]
+  name: 'My Custom',
+  items: [{ title: 'My Site', url: 'https://mysite.com' }],
 });
 
 // Save to conf.yml (Current implementation saves EVERYTHING)
@@ -57,14 +57,14 @@ console.log('Saved conf.yml with merged content + modifications.');
 // 3. Remote Update
 console.log('\n--- Step 3: Remote Content Updates ---');
 const updatedSyncData = [
-    {
-        name: 'Search',
-        items: [
-            { title: 'Google', url: 'https://google.com', icon: 'new_google_icon.png' }, // Icon updated remote
-            { title: 'Bing', url: 'https://bing.com/new', icon: 'bing.png' }, // URL updated remote
-            { title: 'DuckDuckGo', url: 'https://ddg.gg' } // New item
-        ]
-    }
+  {
+    name: 'Search',
+    items: [
+      { title: 'Google', url: 'https://google.com', icon: 'new_google_icon.png' }, // Icon updated remote
+      { title: 'Bing', url: 'https://bing.com/new', icon: 'bing.png' }, // URL updated remote
+      { title: 'DuckDuckGo', url: 'https://ddg.gg' }, // New item
+    ],
+  },
 ];
 fs.writeFileSync(path.join(DATA_DIR, 'synced_sections.json'), JSON.stringify(updatedSyncData));
 

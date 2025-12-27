@@ -33,8 +33,6 @@ export default {
         }
       }
 
-
-
       // 3. Convert JSON into YAML
       const yamlOptions = {};
       const strjsonConfig = JSON.stringify(jsonConfig);

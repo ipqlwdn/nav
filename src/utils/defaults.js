@@ -17,11 +17,11 @@ module.exports = {
   /* Default layout to be applied on initial load */
   layout: 'auto',
   /* Default theme to be applied on initial load */
-  theme: 'default',
+  theme: 'random',
   /* Default Font-Awesome API key, for FA icons (if used) */
   fontAwesomeKey: '0821c65656',
   /* Default API to use for fetching of user service favicon icons (if enabled) */
-  faviconApi: 'allesedv',
+  faviconApi: 'iowen',
   /* The default sort order for sections */
   sortOrder: 'default',
   /* If no 'target' specified, this is the default opening method */
@@ -193,14 +193,14 @@ module.exports = {
     // delay: { show: 380, hide: 0 },
   },
   /* Server location of the Backup & Sync cloud function
-   * NOTE: Set this to your own self-hosted sync service endpoint.
-   * Leave empty to disable cloud backup by default.
-   */
+     * NOTE: Set this to your own self-hosted sync service endpoint.
+     * Leave empty to disable cloud backup by default.
+     */
   backupEndpoint: '',
-
 
   /* Available services for fetching favicon icon for user apps */
   faviconApiEndpoints: {
+    iowen: 'https://api.iowen.cn/favicon/$URL.png',
     allesedv: 'https://f1.allesedv.com/128/$URL',
     clearbit: 'https://logo.clearbit.com/$URL',
     iconhorse: 'https://icon.horse/icon/$URL',
@@ -223,9 +223,9 @@ module.exports = {
     localPath: './item-icons',
     faviconName: 'favicon.ico',
     homeLabIcons:
-      'https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/{icon}.png',
+            'https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/{icon}.png',
     homeLabIconsFallback:
-      'https://raw.githubusercontent.com/NX211/homer-icons/master/png/{icon}.png',
+            'https://raw.githubusercontent.com/NX211/homer-icons/master/png/{icon}.png',
   },
   /* API endpoints for widgets that need to fetch external data */
   widgetApiEndpoints: {

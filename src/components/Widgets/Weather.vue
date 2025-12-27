@@ -1,4 +1,4 @@
-﻿<template>
+<template>
 <div class="weather">
   <!-- Icon + Temperature -->
   <div class="intro">
@@ -112,7 +112,7 @@ export default {
             country: data.country_code, // e.g., 'CN', 'US'
             city: data.city,
             lat: data.latitude,
-            lon: data.longitude
+            lon: data.longitude,
           };
         }
       } catch (e) {
@@ -138,7 +138,7 @@ export default {
           ]];
           return true;
         }
-      } catch (e) { console.error('VVHan Error:', e); };
+      } catch (e) { console.error('VVHan Error:', e); }
       return false;
     },
 
@@ -160,7 +160,7 @@ export default {
           ]];
           return true;
         }
-      } catch (e) { console.error('Oioweb Error:', e); };
+      } catch (e) { console.error('Oioweb Error:', e); }
       return false;
     },
 
@@ -174,31 +174,31 @@ export default {
         if (data.current) {
           this.temp = `${Math.round(data.current.temperature_2m)}C`;
           const code = data.current.weather_code;
-          this.description = this.mapWmoCode(code, isCN); 
+          this.description = this.mapWmoCode(code, isCN);
           this.icon = this.mapWmoIcon(code);
           // Open-Meteo 不返回城市名，需要用之前的 geo 数据，这里均显示 Local 或结合 IP 数据
           // 如果是 CN 模式但走到这里说明国内接口挂了，用 lat/lon 反查太麻烦，直接显示 Generic
-          this.location = isCN ? '本地气象' : 'Local Weather'; 
+          this.location = isCN ? '本地气象' : 'Local Weather';
 
           this.weatherDetails = [[
-             { label: isCN ? '湿度' : 'Humidity', value: `${data.current.relative_humidity_2m}%` },
-             { label: isCN ? '风速' : 'Wind', value: `${data.current.wind_speed_10m} km/h` },
-             { label: isCN ? '最高' : 'Max', value: `${Math.round(data.daily.temperature_2m_max[0])}C` },
+            { label: isCN ? '湿度' : 'Humidity', value: `${data.current.relative_humidity_2m}%` },
+            { label: isCN ? '风速' : 'Wind', value: `${data.current.wind_speed_10m} km/h` },
+            { label: isCN ? '最高' : 'Max', value: `${Math.round(data.daily.temperature_2m_max[0])}C` },
           ]];
           return true;
         }
-      } catch (e) { console.error('OpenMeteo Error:', e); };
+      } catch (e) { console.error('OpenMeteo Error:', e); }
       return false;
     },
 
     /* --- 源 4: OpenWeatherMap (Legacy) --- */
     async fetchOWM() {
-        // ... (保持原有逻辑作为备用) ...
+      // ... (保持原有逻辑作为备用) ...
       try {
         const apiKey = this.parseAsEnvVar(this.options.apiKey);
         const { city } = this.options;
         if (!apiKey) return false;
-        
+
         const params = `q=${city || 'Beijing'}&appid=${apiKey}&units=${this.units}`;
         const url = `${widgetApiEndpoints.weather}?${params}`;
         const res = await fetch(url);
@@ -207,7 +207,7 @@ export default {
           this.processOWMData(data);
           return true;
         }
-      } catch (e) { /* ignore */ };
+      } catch (e) { /* ignore */ }
       return false;
     },
 
@@ -218,12 +218,12 @@ export default {
         const data = await res.json();
         const current = data.current_condition[0];
         const area = data.nearest_area[0];
-        
+
         // 尝试简单的中文映射（Wttr返回是英文）
         this.temp = `${current.temp_C}C`;
         this.description = current.weatherDesc[0].value;
         this.location = this.sanitizeLocation(area.areaName?.[0]?.value || 'Unknown');
-        this.icon = '01d'; 
+        this.icon = '01d';
       } catch (e) {
         this.description = 'Service N/A';
         this.location = 'Offline';
@@ -234,27 +234,36 @@ export default {
     mapWmoCode(code, isCN) {
       const map = {
         0: ['Clear sky', '晴'],
-        1: ['Mainly clear', '多云'], 2: ['Partly cloudy', '多云'], 3: ['Overcast', '阴'],
-        45: ['Fog', '雾'], 48: ['Depositing rime fog', '雾凇'],
-        51: ['Light drizzle', '小毛毛雨'], 53: ['Drizzle', '毛毛雨'], 55: ['Heavy drizzle', '大毛毛雨'],
-        61: ['Light rain', '小雨'], 63: ['Rain', '中雨'], 65: ['Heavy rain', '大雨'],
-        71: ['Light snow', '小雪'], 73: ['Snow', '中雪'], 75: ['Heavy snow', '大雪'],
-        95: ['Thunderstorm', '雷雨']
+        1: ['Mainly clear', '多云'],
+        2: ['Partly cloudy', '多云'],
+        3: ['Overcast', '阴'],
+        45: ['Fog', '雾'],
+        48: ['Depositing rime fog', '雾凇'],
+        51: ['Light drizzle', '小毛毛雨'],
+        53: ['Drizzle', '毛毛雨'],
+        55: ['Heavy drizzle', '大毛毛雨'],
+        61: ['Light rain', '小雨'],
+        63: ['Rain', '中雨'],
+        65: ['Heavy rain', '大雨'],
+        71: ['Light snow', '小雪'],
+        73: ['Snow', '中雪'],
+        75: ['Heavy snow', '大雪'],
+        95: ['Thunderstorm', '雷雨'],
       };
-      
+
       const entry = map[code] || ['Unknown', '未知'];
       return isCN ? entry[1] : entry[0];
     },
 
     mapWmoIcon(code) {
-        // 简单映射到 OWI 图标
-        if (code === 0) return '01d';
-        if (code >= 1 && code <= 3) return '02d';
-        if (code >= 45 && code <= 48) return '50d';
-        if (code >= 51 && code <= 67) return '09d';
-        if (code >= 71 && code <= 77) return '13d';
-        if (code >= 95) return '11d';
-        return '01d';
+      // 简单映射到 OWI 图标
+      if (code === 0) return '01d';
+      if (code >= 1 && code <= 3) return '02d';
+      if (code >= 45 && code <= 48) return '50d';
+      if (code >= 51 && code <= 67) return '09d';
+      if (code >= 71 && code <= 77) return '13d';
+      if (code >= 95) return '11d';
+      return '01d';
     },
 
     /* 通用文字转图标映射 (用于中文 API) */

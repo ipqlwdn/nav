@@ -63,6 +63,7 @@ export default {
     return {
       broken: false, // If true, was unable to resolve icon
       attemptedFallback: false,
+      fallbackStage: 0, // 0: Initial, 1: Secondary, 2: Final
     };
   },
   methods: {
@@ -86,6 +87,12 @@ export default {
     },
     /* Return the path to icon asset, depending on icon type */
     getIconPath(img, url) {
+      // If we are in a fallback stage, handle custom logic for favicons
+      if (this.fallbackStage > 0 && this.determineImageType(img) === 'favicon') {
+        if (this.fallbackStage === 1) return this.getFavicon(url, 'google');
+        if (this.fallbackStage === 2) return this.getGenerativeIcon(url);
+      }
+
       switch (this.determineImageType(img)) {
         case 'url': return img;
         case 'img': return this.getLocalImagePath(img);
@@ -151,6 +158,14 @@ export default {
     getFavicon(fullUrl, specificApi) {
       const fullUrlTrue = fullUrl || '';
       const faviconApi = specificApi || this.appConfig.faviconApi || defaultFaviconApi;
+
+      // If specificApi is passed (e.g. 'google' from fallback), use it directly
+      if (specificApi) {
+        const host = this.getHostName(fullUrlTrue);
+        const endpoint = faviconApiEndpoints[specificApi];
+        return endpoint ? endpoint.replace('$URL', host) : '';
+      }
+
       if (this.shouldUseDefaultFavicon(fullUrlTrue) || faviconApi === 'local') { // Check if we should use local icon
         const urlParts = fullUrlTrue.split('/');
         if (urlParts.length >= 2) return `${urlParts[0]}/${urlParts[1]}/${urlParts[2]}/${iconCdns.faviconName}`;
@@ -186,12 +201,35 @@ export default {
     getLocalImagePath(img) {
       return `/${iconCdns.localPath}/${img}`;
     },
-    /* Formats the URL for fetching the generative icons */
-    getGenerativeIcon(url, cdn) {
-      // Prioritize hostname, then the label (title), then url, then 'default'
-      const host = this.getHostName(url) || this.label || url || 'default';
-      // For UI Avatars, use the hostname directly instead of hash
-      return (cdn || iconCdns.generative).replace('{icon}', encodeURIComponent(host));
+    /* Generates a local SVG icon based on the URL/Title initials */
+    getGenerativeIcon(url) {
+      const host = this.getHostName(url) || this.label || url || 'L';
+      // Get first 1-2 characters
+      const text = host.replace(/[^\w\u4e00-\u9fa5]/g, '').slice(0, 2).toUpperCase() || 'L';
+      const color = this.stringToColor(host);
+
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+          <rect width="100%" height="100%" fill="${color}"/>
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" 
+             font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="#fff">
+            ${text}
+          </text>
+        </svg>
+      `.trim();
+
+      // Use btoa safely for UTF-8 (Chinese characters)
+      const base64 = btoa(unescape(encodeURIComponent(svg)));
+      return `data:image/svg+xml;base64,${base64}`;
+    },
+    /* Generate a consistent color from a string */
+    stringToColor(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const c = (hash & 0x00FFFFFF).toString(16).toUpperCase();
+      return `#${'00000'.substring(0, 6 - c.length)}${c}`;
     },
     /* Returns the SVG path content  */
     getSimpleIcon(img) {
@@ -223,38 +261,35 @@ export default {
     },
     /* Called when the path to the image cannot be resolved */
     imageNotFound(errorMsg) {
-      let outputMessage = '';
-      if (errorMsg && typeof errorMsg === 'string') {
-        outputMessage = errorMsg;
-      } else if (!this.icon) {
-        outputMessage = 'Icon not specified';
+      // Logic for multi-stage fallback
+      // Stage 0: Initial (Likely iowen)
+      // Stage 1: Secondary (Google)
+      // Stage 2: Final (Local SVG)
+
+      if (this.fallbackStage < 2) {
+        this.fallbackStage += 1;
+        this.broken = false; // Reset broken to trigger re-render with new path
       } else {
-        outputMessage = `The path to '${this.icon}' could not be resolved`;
+        this.broken = true; // Show BrokenImage component if all fail
+        let outputMessage = '';
+        if (errorMsg && typeof errorMsg === 'string') {
+          outputMessage = errorMsg;
+        } else if (!this.icon) {
+          outputMessage = 'Icon not specified';
+        } else {
+          outputMessage = `The path to '${this.icon}' could not be resolved`;
+        }
+        ErrorHandler(outputMessage);
       }
-      ErrorHandler(outputMessage);
-      this.broken = true;
     },
     /* Called when initial icon has resulted in 404. Attempts to find new icon */
     getFallbackIcon() {
+      // This is now mostly handled by getIconPath via fallbackStage
+      // But keeping this logic for safety if called directly
       if (this.attemptedFallback) {
-        // Final fallback: use generative icon based on URL
         return this.getGenerativeIcon(this.url || this.icon || 'default');
       }
-      const iconType = this.iconType || '';
-      const markAsAttempted = () => { this.broken = false; this.attemptedFallback = true; };
-      if (iconType.includes('favicon')) { // Specify fallback for favicon-based icons
-        markAsAttempted();
-        return this.getFavicon(this.url, 'local');
-      } else if (iconType === 'generative') {
-        markAsAttempted();
-        return this.getGenerativeIcon(this.url, iconCdns.generativeFallback);
-      } else if (iconType === 'home-lab-icons') {
-        markAsAttempted();
-        return this.getHomeLabIcon(this.icon, iconCdns.homeLabIconsFallback);
-      }
-      // If no specific fallback, use generative icon
-      markAsAttempted();
-      return this.getGenerativeIcon(this.url || this.icon || 'default');
+      return this.getIconPath(this.effectiveIcon, this.url);
     },
   },
 };
