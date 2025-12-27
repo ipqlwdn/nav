@@ -35,6 +35,7 @@ export default {
     icon: String, // Path to icon asset
     url: String, // Used for fetching the favicon
     size: String, // Either small, medium or large
+    label: String, // Item title for generative icons
   },
   components: {
     BrokenImage, // Used when the desired image returns a 404
@@ -187,7 +188,8 @@ export default {
     },
     /* Formats the URL for fetching the generative icons */
     getGenerativeIcon(url, cdn) {
-      const host = this.getHostName(url) || url || 'default';
+      // Prioritize hostname, then the label (title), then url, then 'default'
+      const host = this.getHostName(url) || this.label || url || 'default';
       // For UI Avatars, use the hostname directly instead of hash
       return (cdn || iconCdns.generative).replace('{icon}', encodeURIComponent(host));
     },
