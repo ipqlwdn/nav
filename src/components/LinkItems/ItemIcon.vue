@@ -1,5 +1,5 @@
 <template>
-  <div v-if="icon" :class="`item-icon wrapper-${size}`">
+  <div :class="`item-icon wrapper-${size}`">
     <!-- Font-Awesome Icon -->
     <i v-if="iconType === 'font-awesome'" :class="`${icon} ${size}`" ></i>
     <!-- Emoji Icon -->
@@ -12,7 +12,7 @@
       <path :d="getSimpleIcon(icon)" />
     </svg>
     <!-- Standard image asset icon -->
-    <img v-else-if="icon" :src="iconPath" @error="imageNotFound"
+    <img v-else-if="effectiveIcon" :src="iconPath" @error="imageNotFound"
       :class="`tile-icon ${size} ${broken ? 'broken' : ''}`"
     />
     <!-- Icon could not load/ broken url -->
@@ -44,14 +44,18 @@ export default {
     appConfig() {
       return this.$store.getters.appConfig;
     },
+    /* Effective icon: use 'generative' as default when icon is empty */
+    effectiveIcon() {
+      return this.icon || 'generative';
+    },
     /* Determines the type of icon */
     iconType() {
-      return this.determineImageType(this.icon);
+      return this.determineImageType(this.effectiveIcon);
     },
     /* Gets the icon path, dependent on icon type */
     iconPath() {
       if (this.broken) return this.getFallbackIcon();
-      return this.getIconPath(this.icon, this.url);
+      return this.getIconPath(this.effectiveIcon, this.url);
     },
   },
   data() {
