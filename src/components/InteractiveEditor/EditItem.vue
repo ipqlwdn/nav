@@ -230,6 +230,11 @@ export default {
     formatBeforeSave(item) {
       const newItem = item;
       newItem.id = this.itemId;
+      // START: Auto-prepend https://
+      if (newItem.url && !newItem.url.startsWith('http')) {
+        newItem.url = `https://${newItem.url}`;
+      }
+      // END: Auto-prepend https://
       if (newItem.hotkey) newItem.hotkey = parseInt(newItem.hotkey, 10);
       const strToTags = (tags) => {
         const tagArr = (typeof tags === 'string') ? tags.split(',') : tags;

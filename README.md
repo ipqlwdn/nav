@@ -1,4 +1,6 @@
-# LaoWang Nav
+﻿# LaoWang Nav
+
+[English](README_EN.md) | [简体中文](README.md)
 
 **一个漂亮、易用、功能强大的自托管导航页**
 
@@ -183,20 +185,7 @@ sections:
 
 > 💡 本项目基于 [Dashy](https://github.com/Lissy93/dashy) 二次开发，增加了中文本地化和功能增强。感谢原作者的开源贡献！
 
----
 
-### ☁️ 云端备份配置
-
-默认情况下，云端备份功能已禁用（不连接任何外部服务器）。
-如需启用，请在 `user-data/conf.yml` 的 `appConfig` 部分添加您的自建服务地址：
-
-```yaml
-appConfig:
-  # ... 其他配置
-  backupEndpoint: 'https://your-sync-server.com'
-```
-
----
 
 ## 📄 许可证
 

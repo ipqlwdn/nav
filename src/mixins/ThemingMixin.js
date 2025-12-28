@@ -46,7 +46,7 @@ const ThemingMixin = {
     /* Combines all theme names for dropdown (built-in, user-defined and stylesheets) */
     themeNames() {
       const externalThemeNames = Object.keys(this.externalThemes);
-      return [...this.extraThemeNames, ...externalThemeNames, ...builtInThemes];
+      return ['random', ...this.extraThemeNames, ...externalThemeNames, ...builtInThemes];
     },
   },
   watch: {
@@ -61,16 +61,16 @@ const ThemingMixin = {
   },
   methods: {
     /* Called when user changes theme through the UI
-     * Updates store, which will in turn update theme through watcher
-     */
+         * Updates store, which will in turn update theme through watcher
+         */
     themeChangedInUI() {
       this.$store.commit(Keys.SET_THEME, this.selectedTheme); // Update store
       this.updateTheme(this.selectedTheme); // Apply theme to UI
     },
     /**
-     * Gets any custom styles the user has applied, wither from local storage, or from the config
-     * @returns {object} An array of objects, one for each theme, containing kvps for variables
-     */
+         * Gets any custom styles the user has applied, wither from local storage, or from the config
+         * @returns {object} An array of objects, one for each theme, containing kvps for variables
+         */
     getCustomColors() {
       const localColors = JSON.parse(localStorage[localStorageKeys.CUSTOM_COLORS] || '{}');
       const configColors = this.appConfig.customColors || {};
@@ -108,8 +108,15 @@ const ThemingMixin = {
       return localThemes.includes(themeToCheck);
     },
     /* Updates theme. Checks if the new theme is local or external,
-    and calls appropriate updating function. Updates local storage */
+        and calls appropriate updating function. Updates local storage */
     updateTheme(newTheme) {
+      // Logic for random theme
+      if (newTheme === 'random') {
+        const randomTheme = builtInThemes[Math.floor(Math.random() * builtInThemes.length)];
+        this.updateTheme(randomTheme);
+        return;
+      }
+
       if (newTheme.toLowerCase() === 'default') {
         this.resetToDefault();
       } else if (this.isThemeLocal(newTheme)) {
@@ -131,7 +138,7 @@ const ThemingMixin = {
       this.selectedTheme = initialTheme;
       const hasExternal = this.externalThemes && Object.entries(this.externalThemes).length > 0;
 
-      if (this.isThemeLocal(initialTheme)) {
+      if (this.isThemeLocal(initialTheme) || initialTheme === 'random') {
         this.updateTheme(initialTheme);
       } else if (hasExternal) {
         this.applyRemoteTheme(this.externalThemes[initialTheme]);
